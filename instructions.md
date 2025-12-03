@@ -2,7 +2,14 @@
 
 This document contains instructions, patterns, and best practices for building mobile web applications using React, Ionic React, and the Salt Design System. Follow these guidelines to ensure consistency, maintainability, and excellent mobile UX.
 
-## Getting Started: Building a New App from Scratch
+### Quick Start - Give This to Your Agent
+
+Copy and paste this simple prompt to your AI coding assistant:
+
+```
+Following the instructions given in instructions.md, set up the project and its dependencies and generate a base mobile web application that I can build upon.
+``` 
+
 
 ### Prerequisites
 
