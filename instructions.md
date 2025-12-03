@@ -2,14 +2,33 @@
 
 This document contains instructions, patterns, and best practices for building mobile web applications using React, Ionic React, and the Salt Design System. Follow these guidelines to ensure consistency, maintainability, and excellent mobile UX.
 
+## Getting Started: Building a New App from Scratch
+
 ### Quick Start - Give This to Your Agent
 
 Copy and paste this simple prompt to your AI coding assistant:
 
 ```
 Following the instructions given in instructions.md, set up the project and its dependencies and generate a base mobile web application that I can build upon. Include sample tab pages (Home, List, Settings) with basic structure so I have a working app to start from.
-``` 
+```
 
+### Critical Requirements
+
+**Before building the app, ensure these requirements are met:**
+
+- **Create `.gitignore` file** with commonly ignored folders (node_modules, dist, .env, etc.)
+- **All icons MUST be TSX components** from `components/icons/` (including tab bar icons)
+  - Never use Ionic icons (`ion-icon`), Material UI icons, font icons, or inline SVG
+- **Every page MUST have an `IonHeader` with `IonToolbar`** - no exceptions
+- **All styling MUST use Salt CSS variables** - no hardcoded colors, spacing, or sizing
+- **Tab bar background MUST match app content background** using Salt variables (`var(--salt-card-background)` and `var(--salt-container-primary-background)`)
+- **Settings page MUST include a dark/light mode toggle** using `useSaltTheme` hook with Salt `Switch` component
+
+**Reference these sections for details:**
+- Icons: See [Icons](#icons) section
+- Headers: See [Page Structure](#page-structure) section
+- Styling: See [Styling & Theming](#styling--theming) section
+- Settings Page: See [Common Patterns](#common-patterns) section
 
 ### Prerequisites
 
@@ -26,6 +45,56 @@ Create a new React + TypeScript project with Vite:
 npm create vite@latest my-mobile-app -- --template react-ts
 cd my-mobile-app
 npm install
+```
+
+### Step 1a: Create .gitignore File
+
+**ALWAYS create a `.gitignore` file** to exclude commonly ignored folders and files:
+
+```gitignore
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+dist/
+build/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs
+*.log
+
+# Coverage
+coverage/
+.nyc_output
+
+# Cache
+.cache
+.parcel-cache
+.eslintcache
+.npm
+
+# TypeScript
+*.tsbuildinfo
 ```
 
 ### Step 2: Install Required Dependencies
@@ -75,6 +144,7 @@ App Requirements:
 Follow these steps in order:
 
 1. **Project Setup**:
+   - Create `.gitignore` file with commonly ignored folders (node_modules, dist, .env, etc.)
    - Set up Ionic React with setupIonicReact({ mode: 'ios' })
    - Configure React Router with IonReactRouter
    - Import all required Ionic CSS files
@@ -109,10 +179,11 @@ Follow these steps in order:
 6. **Create Main Pages**:
    - Build Home page following Page Structure section
    - Build List page with search functionality
-   - Build Settings page
-   - Each page must use IonPage, IonHeader, IonToolbar, IonContent
+   - Build Settings page with dark/light mode toggle (see Settings Page Example below)
+   - **CRITICAL**: Each page MUST have IonHeader with IonToolbar - no exceptions
    - Use Salt components (StackLayout, FlexLayout, Text, Button, Card)
    - All styling in CSS files using Salt CSS variables
+   - Tab bar icons MUST use TSX icon components from components/icons/
 
 7. **Create Data Files**:
    - Extract all mock data to src/data/ directory
@@ -166,17 +237,24 @@ Add a [FeatureName] feature to the app following instructions.md:
 Following these instructions will create:
 - Complete app structure with Ionic React Router
 - Tab navigation with proper selection logic
+- **All pages with headers** (IonHeader with IonToolbar on every page)
+- **Tab bar with TSX icon components** (no Ionic or Material icons)
+- **Consistent backgrounds** (tab bar and app content use Salt variables)
 - All pages using Salt Design System components
-- Consistent styling with Salt CSS variables
+- Consistent styling with Salt CSS variables throughout
 - Proper navigation patterns with useIonRouter
 - Mobile-optimized UI with safe areas and touch targets
 - TypeScript types for all data
-- Icon component system
+- Icon component system (TSX components only)
 - Theme provider with light/dark mode
+- **Settings page with dark/light mode toggle**
 
 ### Quick Reference: Files to Create
 
 After running the prompt, you should have these files:
+
+**Project Files:**
+- `.gitignore` - Git ignore file with commonly ignored folders (node_modules, dist, .env, etc.)
 
 **Core Files:**
 - `src/main.tsx` - Entry point with SaltThemeProvider
@@ -291,6 +369,7 @@ Create a [ComponentName] component following instructions.md:
 ## Table of Contents
 
 - [Getting Started: Building a New App from Scratch](#getting-started-building-a-new-app-from-scratch)
+  - [Critical Requirements](#critical-requirements)
 - [How to Use This Guide](#how-to-use-this-guide)
 - [Using This Guide as an Agent Prompt](#using-this-guide-as-an-agent-prompt)
 - [Navigation & Routing](#navigation--routing)
@@ -383,6 +462,14 @@ const isTabSelected = (path: string) => {
 
 ## Styling & Theming
 
+### CRITICAL: Salt Styling Must Be Applied Everywhere Consistently
+
+**ALL styling throughout the application MUST use Salt CSS variables. This ensures:**
+- Consistent theming across light/dark modes
+- Proper color contrast and accessibility
+- Unified visual design
+- Tab bar background matches app content background
+
 ### DO: Always Use Salt Design System CSS Variables
 
 **Never hardcode colors, spacing, or sizing.** Use Salt's CSS variables:
@@ -390,9 +477,36 @@ const isTabSelected = (path: string) => {
 ```css
 color: var(--salt-content-primary-foreground);
 padding: var(--salt-spacing-150);
-background: var(--salt-card-background);
+background: var(--salt-container-primary-background);
 border-color: var(--salt-separable-secondary-borderColor);
 ```
+
+### DO: Match Tab Bar and App Content Backgrounds
+
+**The tab bar background MUST match the app content background using Salt variables:**
+
+```css
+/* Tab bar must use Salt variables to match app background */
+ion-tab-bar {
+  --background: var(--salt-card-background);
+  --color: var(--salt-content-secondary-foreground);
+  --color-selected: var(--salt-accent-foreground);
+  --border: 1px solid var(--salt-separable-secondary-borderColor);
+}
+
+ion-tab-bar::part(native) {
+  background: var(--salt-card-background);
+  color: var(--salt-content-secondary-foreground);
+  border-top: 1px solid var(--salt-separable-secondary-borderColor);
+}
+
+/* App content background */
+.salt-page-shell {
+  background: var(--salt-container-primary-background);
+}
+```
+
+**This ensures the tab bar and app content have consistent backgrounds that adapt to light/dark mode.**
 
 ### DO: Use Salt Spacing Variables Consistently
 
@@ -456,9 +570,25 @@ import { IonContent, IonHeader, IonPage, IonToolbar } from '@ionic/react';
 
 ## Icons
 
+### CRITICAL: Always Use Salt Icon Components (TSX)
+
+**ALL icons throughout the application MUST be TSX components from the icons directory. This includes:**
+- Tab bar icons (Home, List, Settings, etc.)
+- Navigation icons (back buttons, forward arrows)
+- Action icons (search, filter, settings)
+- Status icons (check, warning, info)
+- Any other icons in the app
+
+**NEVER use:**
+- Ionic icons (`ion-icon`)
+- Material UI icons
+- Font icons
+- Inline SVG
+- Image files for icons
+
 ### DO: Convert SVGs to TSX Components
 
-All icons should be TSX components in a dedicated icons directory:
+All icons must be TSX components in a dedicated icons directory:
 
 ```typescript
 import React from 'react';
@@ -469,6 +599,19 @@ export const ArrowBack: React.FC<Omit<IconProps, 'children'>> = (props) => (
     <path d="M30.83 14.83l-2.42-2.42L18 22l10.41 9.59 2.42-2.42L22.84 22z"/>
   </Icon>
 );
+```
+
+### DO: Use Icon Components for Tab Bar
+
+**Tab bar icons MUST use TSX icon components:**
+
+```typescript
+import { Home as HomeIcon, List as ListIcon, Settings as SettingsIcon } from './components/icons';
+
+<IonTabButton tab="home" selected={isTabSelected('/home')}>
+  <HomeIcon size={30} />
+  <IonLabel>Home</IonLabel>
+</IonTabButton>
 ```
 
 ### DO: Use Icon Components Instead of Text
@@ -643,9 +786,13 @@ Use Salt components for consistent list structure. Prefer Salt's layout componen
 
 ## Page Structure
 
+### CRITICAL: All Pages Must Have Headers
+
+**EVERY page in the application MUST include an `IonHeader` with `IonToolbar`. There are no exceptions.**
+
 ### DO: Follow Standard Page Structure
 
-Every page should follow this structure:
+Every page must follow this structure with a header:
 
 ```typescript
 import { IonContent, IonHeader, IonPage, IonToolbar } from '@ionic/react';
@@ -655,7 +802,7 @@ const MyPage: React.FC = () => {
     <IonPage>
       <IonHeader translucent={false}>
         <IonToolbar className="salt-toolbar">
-          {/* Header content */}
+          {/* Header content - required on all pages */}
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
@@ -667,6 +814,12 @@ const MyPage: React.FC = () => {
   );
 };
 ```
+
+**Required elements:**
+- `IonPage` - Root page component
+- `IonHeader` with `IonToolbar` - **MUST be present on every page**
+- `IonContent` - Page content container
+- `.salt-page-shell` div - Provides consistent background using Salt variables
 
 **CSS classes to define:**
 - `.salt-page-shell` - Provides consistent page background using Salt variables
@@ -979,6 +1132,36 @@ const TabBar: React.FC = () => {
     </IonTabBar>
   );
 };
+```
+
+**Required CSS for Tab Bar (must use Salt variables):**
+
+```css
+/* Tab bar must match app content background using Salt variables */
+ion-tab-bar {
+  --background: var(--salt-card-background);
+  --color: var(--salt-content-secondary-foreground);
+  --color-selected: var(--salt-accent-foreground);
+  --border: 1px solid var(--salt-separable-secondary-borderColor);
+  border-top: 1px solid var(--salt-separable-secondary-borderColor);
+}
+
+ion-tab-bar::part(native) {
+  background: var(--salt-card-background);
+  color: var(--salt-content-secondary-foreground);
+  border-top: 1px solid var(--salt-separable-secondary-borderColor);
+}
+
+ion-tab-button {
+  --color: var(--salt-content-primary-foreground);
+  --color-selected: var(--salt-accent-foreground);
+}
+
+ion-tab-button.tab-selected {
+  --color: var(--salt-accent-foreground);
+  color: var(--salt-accent-foreground);
+}
+```
 
 const App: React.FC = () => (
   <IonApp>
@@ -1017,6 +1200,8 @@ export default App;
 - Use `IonTabs` to enable tab navigation
 - `IonRouterOutlet` contains all route definitions
 - `TabBar` component handles bottom navigation
+- **Tab bar icons MUST use TSX icon components** from `components/icons/`
+- **Tab bar styling MUST use Salt CSS variables** to match app content background
 - Use `useIonRouter` in TabBar for navigation
 - Tab selection logic maintains context across detail pages
 - Support route prefixes for feature grouping
@@ -1096,16 +1281,70 @@ const TabBar: React.FC = () => {
 </IonHeader>
 ```
 
+### Settings Page with Dark/Light Mode Toggle
+
+**The Settings page MUST include a toggle switch for switching between dark and light modes:**
+
+```typescript
+import { IonContent, IonHeader, IonPage, IonToolbar } from '@ionic/react';
+import { Button, FlexLayout, StackLayout, Switch, Text } from '@salt-ds/core';
+import { useSaltTheme } from '../theme/SaltThemeProvider';
+import './settings.css';
+
+const SettingsPage: React.FC = () => {
+  const { mode, toggleMode } = useSaltTheme();
+
+  return (
+    <IonPage>
+      <IonHeader translucent={false}>
+        <IonToolbar className="salt-toolbar">
+          <Text styleAs="h4" className="salt-toolbar-title">Settings</Text>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent fullscreen>
+        <div className="salt-page-shell">
+          <StackLayout gap={2} className="settings-content">
+            <FlexLayout justify="space-between" align="center" gap={2}>
+              <StackLayout gap={0.5}>
+                <Text styleAs="h4">Theme</Text>
+                <Text styleAs="label">Switch between light and dark mode</Text>
+              </StackLayout>
+              <Switch
+                checked={mode === 'dark'}
+                onChange={toggleMode}
+                aria-label="Toggle dark mode"
+              />
+            </FlexLayout>
+          </StackLayout>
+        </div>
+      </IonContent>
+    </IonPage>
+  );
+};
+
+export default SettingsPage;
+```
+
+**Required CSS:**
+
+```css
+.settings-content {
+  padding: var(--salt-spacing-150);
+}
+```
+
 ---
 
 ## Checklist for New Pages
 
 - [ ] Page uses `IonPage`, `IonHeader`, `IonToolbar`, `IonContent`
+- [ ] **Header is present** - Every page MUST have an `IonHeader` with `IonToolbar`
 - [ ] Header uses Salt components for layout
-- [ ] Back navigation uses icon components
-- [ ] All styling uses Salt CSS variables
+- [ ] Back navigation uses TSX icon components (not Ionic or Material icons)
+- [ ] All styling uses Salt CSS variables (no hardcoded colors/spacing)
+- [ ] Tab bar uses Salt CSS variables to match app content background
 - [ ] Spacing uses Salt spacing variables
-- [ ] Icons are TSX components (not inline SVG)
+- [ ] **All icons are TSX components** from `components/icons/` (tab bar, navigation, actions)
 - [ ] Mock data extracted to dedicated data directory if applicable
 - [ ] Safe area insets respected for bottom padding
 - [ ] Touch targets are at least 44x44px
@@ -1141,10 +1380,62 @@ router.push('/target', 'root', 'replace');
 <div className="example">
 ```
 
-### DON'T: Use Text for Navigation
+### DON'T: Use Ionic, Material, or Other Icon Libraries
+
+**NEVER use:**
+- `ion-icon` from Ionic
+- Material UI icons
+- Font icons
+- Image files for icons
+
+**ALWAYS use TSX icon components:**
 
 ```typescript
+import { ArrowBack, Home, Settings } from './components/icons';
+
 <ArrowBack size={18} />
+<Home size={30} />
+```
+
+### DON'T: Create Pages Without Headers
+
+**EVERY page MUST have an `IonHeader` with `IonToolbar`:**
+
+```typescript
+<IonPage>
+  <IonHeader translucent={false}>
+    <IonToolbar className="salt-toolbar">
+      {/* Header content required */}
+    </IonToolbar>
+  </IonHeader>
+  <IonContent fullscreen>
+    {/* Content */}
+  </IonContent>
+</IonPage>
+```
+
+### DON'T: Hardcode Tab Bar or App Backgrounds
+
+**ALWAYS use Salt CSS variables for consistent theming:**
+
+```css
+/* DO */
+ion-tab-bar {
+  --background: var(--salt-card-background);
+}
+
+.salt-page-shell {
+  background: var(--salt-container-primary-background);
+}
+
+/* DON'T */
+ion-tab-bar {
+  --background: #000000;
+}
+
+.page-content {
+  background: #ffffff;
+}
 ```
 
 ### DON'T: Store Mock Data in Components
