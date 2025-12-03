@@ -7,7 +7,7 @@ This document contains instructions, patterns, and best practices for building m
 Copy and paste this simple prompt to your AI coding assistant:
 
 ```
-Following the instructions given in instructions.md, set up the project and its dependencies and generate a base mobile web application that I can build upon.
+Following the instructions given in instructions.md, set up the project and its dependencies and generate a base mobile web application that I can build upon. Include sample tab pages (Home, List, Settings) with basic structure so I have a working app to start from.
 ``` 
 
 
