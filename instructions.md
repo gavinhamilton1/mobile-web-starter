@@ -1,1149 +1,236 @@
 # React + Ionic + Salt Design System - Mobile Web App Instructions
 
-This document contains instructions, patterns, and best practices for building mobile web applications using React, Ionic React, and the Salt Design System. Follow these guidelines to ensure consistency, maintainability, and excellent mobile UX.
 
-## Getting Started: Building a New App from Scratch
+### Quick Start
 
-### Quick Start - Give This to Your Agent
+Copy and paste this prompt to your AI coding assistant:
 
-Copy and paste this simple prompt to your AI coding assistant:
+Build a complete mobile web app following instructions.md exactly. Include:
+- Install all dependencies (run npm install commands)
+- All setup (dependencies, CSS imports, SaltThemeProvider)
+- App.tsx with tab navigation
+- 3 tab pages (Home, List, Settings) using the Tab Page Template
+- Add a light mode dark mode toggle switch on the settings page
+- Tab bar with Salt icons
 
-```
-Following the instructions given in instructions.md, set up the project and its dependencies and generate a base mobile web application that I can build upon. Include sample tab pages (Home, List, Settings) with basic structure so I have a working app to start from.
-```
+Use the templates in instructions.md - do not create custom patterns.
 
-### Critical Requirements
+## For AI Agents
 
-**Before building the app, ensure these requirements are met:**
+**When building or modifying this application, you MUST:**
 
-- **Create `.gitignore` file** with commonly ignored folders (node_modules, dist, .env, etc.)
-- **All icons MUST be TSX components** from `components/icons/` (including tab bar icons)
-  - Never use Ionic icons (`ion-icon`), Material UI icons, font icons, or inline SVG
-- **Every page MUST have an `IonHeader` with `IonToolbar`** - no exceptions
-- **All styling MUST use Salt CSS variables** - no hardcoded colors, spacing, or sizing
-- **Tab bar background MUST match app content background** using Salt variables (`var(--salt-card-background)` and `var(--salt-container-primary-background)`)
-- **Settings page MUST include a dark/light mode toggle** using `useSaltTheme` hook with Salt `Switch` component
-
-**Reference these sections for details:**
-- Icons: See [Icons](#icons) section
-- Headers: See [Page Structure](#page-structure) section
-- Styling: See [Styling & Theming](#styling--theming) section
-- Settings Page: See [Common Patterns](#common-patterns) section
-
-### Prerequisites
-
-Before starting, ensure you have:
-- Node.js (v18 or higher)
-- npm or yarn package manager
-- A code editor with AI coding assistant (VS Code with Cursor, GitHub Copilot, etc.)
-
-### Step 1: Initialize Your Project
-
-Create a new React + TypeScript project with Vite:
-
-```bash
-npm create vite@latest my-mobile-app -- --template react-ts
-cd my-mobile-app
-npm install
-```
-
-### Step 1a: Create .gitignore File
-
-**ALWAYS create a `.gitignore` file** to exclude commonly ignored folders and files:
-
-```gitignore
-# Dependencies
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Build outputs
-dist/
-build/
-
-# Environment variables
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Logs
-logs
-*.log
-
-# Coverage
-coverage/
-.nyc_output
-
-# Cache
-.cache
-.parcel-cache
-.eslintcache
-.npm
-
-# TypeScript
-*.tsbuildinfo
-```
-
-### Step 2: Install Required Dependencies
-
-Install Ionic React, Salt Design System, and React Router:
-
-```bash
-npm install @ionic/react @ionic/react-router react-router react-router-dom @salt-ds/core @salt-ds/theme
-npm install -D @types/react-router @types/react-router-dom
-```
-
-### Step 2a: Required CSS Imports
-
-Create or update your main entry file (e.g., `main.tsx`) to import required CSS:
-
-```typescript
-import '@ionic/react/css/core.css';
-import '@ionic/react/css/normalize.css';
-import '@ionic/react/css/structure.css';
-import '@ionic/react/css/typography.css';
-import '@ionic/react/css/palettes/dark.system.css';
-import '@salt-ds/core/css/salt-core.css';
-import '@salt-ds/theme/css/theme-next.css';
-import '@salt-ds/theme/css/theme.css';
-import './theme/variables.css';
-import './index.css';
-```
-
-### Step 3: Add This Instructions File
-
-1. Download or copy this `instructions.md` file into your project root
-2. Open it in your IDE
-3. Make it available to your AI coding assistant (attach it, reference it, or ensure it's in the workspace)
-
-### Step 4: Use This Single Prompt to Build Your App
-
-Copy and paste this prompt into your AI coding assistant, customizing the app name and features:
-
-```
-Build a complete mobile web app following all patterns in instructions.md.
-
-App Requirements:
-- App Name: [Your App Name]
-- Main Features: [List 3-5 main features/sections]
-- Tab Navigation: [List tab names, e.g., Home, List, Settings, Profile]
-
-Follow these steps in order:
-
-1. **Project Setup**:
-   - Create `.gitignore` file with commonly ignored folders (node_modules, dist, .env, etc.)
-   - Set up Ionic React with setupIonicReact({ mode: 'ios' })
-   - Configure React Router with IonReactRouter
-   - Import all required Ionic CSS files
-   - Create theme/variables.css and index.css files
-   - Follow the App Structure section for base setup
-
-2. **Create App Component**:
-   - Build the main App.tsx following the App Structure section
-   - Create TabBar component with tab selection logic
-   - Set up routes for all main pages
-   - Use generic tab names and routes
-
-3. **Create Theme Provider**:
-   - Create theme/SaltThemeProvider.tsx
-   - Set up SaltThemeProvider with SaltProviderNext
-   - Support light/dark mode switching with localStorage persistence
-   - Configure SaltProviderNext with density="touch", accent="teal", headingFont="Amplitude", actionFont="Amplitude"
-   - Wrap App component in main.tsx with SaltThemeProviderNext
-
-4. **Create Icon System**:
-   - Create components/icons/Icon.tsx base component
-   - Create icon components for navigation (Home, List, Settings, etc.)
-   - Export all icons from components/icons/index.ts
-   - Follow the Icons section patterns
-
-5. **Create Base CSS Files**:
-   - Create index.css with global styles, font smoothing, and Salt variable overrides
-   - Create theme/variables.css for Ionic theme variables
-   - Set up salt-toolbar, salt-page-shell, salt-inline-icon CSS classes
-   - Follow Styling & Theming section
-
-6. **Create Main Pages**:
-   - Build Home page following Page Structure section
-   - Build List page with search functionality
-   - Build Settings page with dark/light mode toggle (see Settings Page Example below)
-   - **CRITICAL**: Each page MUST have IonHeader with IonToolbar - no exceptions
-   - Use Salt components (StackLayout, FlexLayout, Text, Button, Card)
-   - All styling in CSS files using Salt CSS variables
-   - Tab bar icons MUST use TSX icon components from components/icons/
-
-7. **Create Data Files**:
-   - Extract all mock data to src/data/ directory
-   - Export TypeScript types with data
-   - Follow Data Organization section
-
-8. **Apply Styling**:
-   - Create CSS files for each page
-   - Use only Salt CSS variables (var(--salt-spacing-150), etc.)
-   - No inline styles, no hardcoded colors/spacing
-   - Follow Styling & Theming section
-
-9. **Verify Checklist**:
-   - Check against "Checklist for New Pages" section
-   - Ensure no anti-patterns from "Anti-Patterns to Avoid" section
-   - Verify all navigation uses useIonRouter
-   - Confirm all inputs have font-size: 16px minimum
-
-Reference instructions.md for:
-- Navigation patterns (useIonRouter, location.state)
-- Header patterns (FlexLayout with three-column layout)
-- List patterns (Salt components)
-- Action bars (fixed bottom with Salt spacing)
-- Mobile UI best practices (safe areas, touch targets, font sizes)
-
-Build the complete app structure, all pages, routing, and styling following every pattern in instructions.md.
-```
-
-### Step 5: Customize the Prompt
-
-Replace the placeholders in brackets:
-- `[Your App Name]` - Your application name
-- `[List 3-5 main features/sections]` - What your app does
-- `[List tab names]` - Your navigation tabs
-
-### Step 6: Iterate and Build Features
-
-After the initial app is built, use specific prompts for new features:
-
-```
-Add a [FeatureName] feature to the app following instructions.md:
-- Create routes under /feature-name/ prefix
-- Build [FeatureName]Page component
-- Extract mock data to src/data/
-- Use Salt components throughout
-- Follow all patterns in instructions.md
-```
-
-### What You'll Get
-
-Following these instructions will create:
-- Complete app structure with Ionic React Router
-- Tab navigation with proper selection logic
-- **All pages with headers** (IonHeader with IonToolbar on every page)
-- **Tab bar with TSX icon components** (no Ionic or Material icons)
-- **Consistent backgrounds** (tab bar and app content use Salt variables)
-- All pages using Salt Design System components
-- Consistent styling with Salt CSS variables throughout
-- Proper navigation patterns with useIonRouter
-- Mobile-optimized UI with safe areas and touch targets
-- TypeScript types for all data
-- Icon component system (TSX components only)
-- Theme provider with light/dark mode
-- **Settings page with dark/light mode toggle**
-
-### Quick Reference: Files to Create
-
-After running the prompt, you should have these files:
-
-**Project Files:**
-- `.gitignore` - Git ignore file with commonly ignored folders (node_modules, dist, .env, etc.)
-
-**Core Files:**
-- `src/main.tsx` - Entry point with SaltThemeProvider
-- `src/App.tsx` - Main app with routing and TabBar
-- `src/index.css` - Global styles and Salt overrides
-- `src/theme/variables.css` - Ionic theme variables
-- `src/theme/SaltThemeProvider.tsx` - Theme provider component
-
-**Icon System:**
-- `src/components/icons/Icon.tsx` - Base icon component
-- `src/components/icons/[IconName].tsx` - Individual icon components
-- `src/components/icons/index.ts` - Icon exports
-
-**Pages:**
-- `src/pages/Home.tsx` - Home page
-- `src/pages/[FeatureName].tsx` - Feature pages
-- `src/pages/[FeatureName].css` - Page-specific styles
-
-**Data:**
-- `src/data/[featureName]Data.ts` - Mock data with TypeScript types
-
-### Troubleshooting
-
-If the AI assistant doesn't follow patterns correctly:
-1. Explicitly reference the section name (e.g., "Follow the Header Patterns section")
-2. Point to specific code examples in instructions.md
-3. Remind it to check the Checklist for New Pages
-4. Ask it to verify against Anti-Patterns section
-5. Break down the request into smaller steps if needed
-
----
-
-## How to Use This Guide
-
-**When building a new screen or component:**
-
-1. **Start with Page Structure**: Use the standard `IonPage`, `IonHeader`, `IonToolbar`, and `IonContent` structure
-2. **Follow Component Patterns**: Use Salt components (`StackLayout`, `FlexLayout`, `Text`, `Button`) instead of generic HTML elements
-3. **Apply Styling Rules**: Always use Salt CSS variables (`var(--salt-spacing-150)`, `var(--salt-content-primary-foreground)`, etc.) - never hardcode values
-4. **Use Navigation Patterns**: Use `useIonRouter` for navigation, pass context via `location.state`
-5. **Check the Checklist**: Review the "Checklist for New Pages" section before completing
-6. **Avoid Anti-Patterns**: Reference the "Anti-Patterns to Avoid" section to ensure you're not making common mistakes
+1. **Install dependencies FIRST** - Run `npm install` commands before creating any source files
+2. **Follow ALL patterns exactly** - Use the templates and code examples provided
+3. **Use Salt Design System components** - Never use generic HTML when a Salt component exists
+4. **Use Salt CSS variables** - Never hardcode colors, spacing, or sizing
+5. **Include headers on ALL pages** - Every page MUST have `IonHeader` with `IonToolbar`
+6. **Use Salt icons only** - Import from `@salt-ds/icons`, never use Ionic or Material icons
+7. **Follow the Tab Page Template** - Use the provided template for all tab pages
+8. **Check the Checklist** - Verify all requirements before completing any page
 
 **Quick Reference:**
-- Page structure: See [Page Structure](#page-structure)
-- Header patterns: See [Header Patterns](#header-patterns)
-- List patterns: See [List Patterns](#list-patterns)
-- Action bars: See [Action Bars & Buttons](#action-bars--buttons)
-- Styling: See [Styling & Theming](#styling--theming)
-
-## Using This Guide as an Agent Prompt
-
-When working with an AI coding assistant, reference this guide to ensure consistent implementation. Here are example prompts you can use:
-
-### Example 1: Building a New Screen
-
-```
-Build a new [ScreenName] page following the patterns in instructions.md. 
-The screen should:
-- Display a list of items with search functionality
-- Include a header with back navigation and title
-- Have a fixed action bar at the bottom with primary and secondary actions
-- Use Salt components and CSS variables throughout
-- Follow the Page Structure and Header Patterns sections
-- Check the Checklist for New Pages before completing
-```
-
-### Example 2: Building a Detail Screen
-
-```
-Create a [DetailScreenName] detail page using instructions.md as a reference. 
-Requirements:
-- Use the standard IonPage structure
-- Header with three-column layout (back button, title, cancel button)
-- Pass context via location.state when navigating to this page
-- Use Salt StackLayout and FlexLayout for content organization
-- Ensure all styling uses Salt CSS variables
-- Add ARIA labels to icon-only buttons
-```
-
-### Example 3: Adding a Feature
-
-```
-Add a new [FeatureName] feature following instructions.md patterns:
-- Create routes under /feature-name/ prefix
-- Use useIonRouter for all navigation
-- Extract mock data to a separate data file with TypeScript types
-- Use Salt components (Button, Text, StackLayout, FlexLayout)
-- Follow Mobile UI Best Practices section
-- Avoid all anti-patterns listed in the guide
-```
-
-### Example 4: Quick Component
-
-```
-Create a [ComponentName] component following instructions.md:
-- Use Salt components instead of generic HTML
-- Apply Salt spacing variables (var(--salt-spacing-150))
-- Use icon components from the icons directory
-- Ensure touch targets are at least 44x44px
-- Add proper ARIA labels
-```
-
-### Tips for Best Results
-
-1. **Be specific**: Mention which sections of the guide to follow
-2. **Reference patterns**: Point to specific patterns (e.g., "Use the Three-Column Header Layout")
-3. **Include requirements**: State what the screen/component should do
-4. **Mention checklist**: Ask to verify against the Checklist for New Pages
-5. **Avoid anti-patterns**: Explicitly mention avoiding the anti-patterns section
-
-## Table of Contents
-
-- [Getting Started: Building a New App from Scratch](#getting-started-building-a-new-app-from-scratch)
-  - [Critical Requirements](#critical-requirements)
-- [How to Use This Guide](#how-to-use-this-guide)
-- [Using This Guide as an Agent Prompt](#using-this-guide-as-an-agent-prompt)
-- [Navigation & Routing](#navigation--routing)
-- [Styling & Theming](#styling--theming)
-- [Component Patterns](#component-patterns)
-- [Icons](#icons)
-- [Data Organization](#data-organization)
-- [Mobile UI Best Practices](#mobile-ui-best-practices)
-- [Page Structure](#page-structure)
-- [Header Patterns](#header-patterns)
-- [List Patterns](#list-patterns)
-- [Action Bars & Buttons](#action-bars--buttons)
-- [Animations & Transitions](#animations--transitions)
-- [Performance & Accessibility](#performance--accessibility)
-- [App Structure](#app-structure)
-- [Common Patterns](#common-patterns)
+- Tab page template: See "Page Template" section
+- Header pattern: See "Header Pattern" section  
+- CSS setup: See "Required CSS Variables" section
+- Icons: See "Icons" section
+- Navigation: See "Navigation" section
 
 ---
 
-## Navigation & Routing
+Essential patterns and requirements for building mobile web applications with React, Ionic React, and Salt Design System.
 
-### DO: Use `useIonRouter` for Navigation
+## Critical Requirements
 
-**Always use `useIonRouter` instead of `history.push` or `history.replace`** to enable Ionic transitions:
+- **All icons MUST be Salt Design System icons** from `@salt-ds/icons`
+- **Every page MUST have an `IonHeader` with `IonToolbar`** - NO EXCEPTIONS
+- **All styling MUST use Salt CSS variables** - no hardcoded colors, spacing, or sizing
+- **Tab bar background MUST match app content background** using Salt variables
+
+## Setup
+
+### Setup Steps (For AI Agents Building from Scratch)
+
+**Follow these steps in order:**
+
+1. **Create project structure** (if needed) - Create `package.json`, `vite.config.ts`, `tsconfig.json`, `.gitignore`, and `index.html`
+2. **Install dependencies** - Run the npm install commands below (REQUIRED before creating source files)
+3. **Create source files** - Create all files in `src/` directory following the templates
+4. **Verify setup** - Check that all files are created and dependencies are installed
+
+### Initial Project Setup
+
+If starting from scratch, create a new Vite + React + TypeScript project:
+
+```bash
+npm create vite@latest mobile-web-starter -- --template react-ts
+cd mobile-web-starter
+```
+
+### Dependencies
+
+**CRITICAL: You MUST install all dependencies before creating source files. Run these commands:**
+
+```bash
+npm install @ionic/react@^8.5.0 @ionic/react-router@^8.5.0 react-router@^5.3.4 react-router-dom@^5.3.4 @salt-ds/core@^1.54.0 @salt-ds/icons@^1.15.0 @salt-ds/theme@^1.37.0 react@^18.2.0 react-dom@^18.2.0
+npm install -D @types/react@^18.2.66 @types/react-dom@^18.2.22 @types/react-router@^5.1.20 @types/react-router-dom@^5.3.3 @typescript-eslint/eslint-plugin@^7.2.0 @typescript-eslint/parser@^7.2.0 @vitejs/plugin-react@^4.2.1 eslint@^8.57.0 eslint-plugin-react-hooks@^4.6.0 eslint-plugin-react-refresh@^0.4.6 typescript@^5.2.2 vite@^5.2.0
+```
+
+**For AI Agents:** If you are building the app from scratch, you MUST execute these npm install commands using the terminal before proceeding to create source files. Do not skip this step.
+
+**Important Version Notes:**
+- Use React 18 (not React 19) for compatibility with type definitions
+- Salt Design System packages have different version numbers:
+  - `@salt-ds/core`: `^1.54.0`
+  - `@salt-ds/icons`: `^1.15.0`
+  - `@salt-ds/theme`: `^1.37.0`
+
+### Project Structure
+
+Create the following directory structure:
+
+```
+src/
+├── components/
+├── data/
+├── pages/
+│   ├── Home.tsx
+│   ├── List.tsx
+│   └── Settings.tsx
+├── theme/
+│   ├── SaltThemeProvider.tsx
+│   └── variables.css
+├── App.tsx
+├── main.tsx
+├── index.css
+└── style.css
+```
+
+### Vite Configuration
+
+Ensure `vite.config.ts` includes the React plugin:
 
 ```typescript
-import { useIonRouter } from '@ionic/react';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
-const MyComponent: React.FC = () => {
-  const router = useIonRouter();
-
-  const handleNavigation = () => {
-    router.push('/target-path', 'root', 'replace');
-  };
-};
+export default defineConfig({
+  plugins: [react()],
+})
 ```
 
-### DO: Pass Context via `location.state`
+### TypeScript Configuration
 
-When navigating to detail pages, pass context via `location.state` to maintain tab bar highlighting and provide data:
+Ensure `tsconfig.json` includes:
 
-```typescript
-import { useHistory, useLocation } from 'react-router-dom';
-
-history.push('/item-details', {
-  item: itemData,
-  source: 'list-view',
-  actionType: 'edit',
-});
-const location = useLocation();
-const state = location.state as { item: ItemType; source: string };
-const item = state?.item;
-```
-
-### DO: Use Route Prefixes for Feature Groups
-
-Group related routes under a common prefix:
-
-```typescript
-<Route exact path="/feature" />
-<Route exact path="/feature/create" />
-<Route exact path="/feature/edit" />
-<Route exact path="/feature/history" />
-```
-
-### DO: Maintain Tab Bar Context
-
-Tab bar highlighting should reflect the current section, even on detail pages:
-
-```typescript
-const isTabSelected = (path: string) => {
-  const currentPath = location.pathname;
-  const state = location.state as TabBarLocationState | undefined;
-
-  if (currentPath === '/item-details' && state?.source) {
-    if (state.source === 'list-view' && path === '/list') return true;
-    if (state.source === 'dashboard' && path === '/dashboard') return true;
-    return false;
-  }
-
-  if (currentPath.startsWith('/feature/') && path === '/feature') {
-    return true;
-  }
-
-  return currentPath === path || currentPath.startsWith(path + '/');
-};
-```
-
----
-
-## Styling & Theming
-
-### CRITICAL: Salt Styling Must Be Applied Everywhere Consistently
-
-**ALL styling throughout the application MUST use Salt CSS variables. This ensures:**
-- Consistent theming across light/dark modes
-- Proper color contrast and accessibility
-- Unified visual design
-- Tab bar background matches app content background
-
-### DO: Always Use Salt Design System CSS Variables
-
-**Never hardcode colors, spacing, or sizing.** Use Salt's CSS variables:
-
-```css
-color: var(--salt-content-primary-foreground);
-padding: var(--salt-spacing-150);
-background: var(--salt-container-primary-background);
-border-color: var(--salt-separable-secondary-borderColor);
-```
-
-### DO: Match Tab Bar and App Content Backgrounds
-
-**The tab bar background MUST match the app content background using Salt variables:**
-
-```css
-/* Tab bar must use Salt variables to match app background */
-ion-tab-bar {
-  --background: var(--salt-card-background);
-  --color: var(--salt-content-secondary-foreground);
-  --color-selected: var(--salt-accent-foreground);
-  --border: 1px solid var(--salt-separable-secondary-borderColor);
-}
-
-ion-tab-bar::part(native) {
-  background: var(--salt-card-background);
-  color: var(--salt-content-secondary-foreground);
-  border-top: 1px solid var(--salt-separable-secondary-borderColor);
-}
-
-/* App content background */
-.salt-page-shell {
-  background: var(--salt-container-primary-background);
+```json
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "jsx": "react-jsx",
+    "moduleResolution": "bundler",
+    "strict": true
+  },
+  "include": ["src"]
 }
 ```
 
-**This ensures the tab bar and app content have consistent backgrounds that adapt to light/dark mode.**
+### .gitignore Setup
 
-### DO: Use Salt Spacing Variables Consistently
+Create a `.gitignore` file in the project root with common patterns:
 
-Use Salt spacing scale variables in component props and Salt CSS variables:
-
-```typescript
-<StackLayout gap={1}>
-  <Text styleAs="h4">Title</Text>
-</StackLayout>
+```gitignore
+node_modules
+dist
+logs
+*.log
+.vite
 ```
 
-```css
-.content-padding {
-  padding: var(--salt-spacing-150);
-}
-```
+**Key directories/files to ignore:**
+- `node_modules/` - Dependencies (always ignore)
+- `dist/` - Build output directory
+- `.env*` - Environment variable files (may contain secrets)
+- Editor configs (`.vscode/`, `.idea/`, `.DS_Store`)
+- Log files (`*.log`)
+- Cache directories (`.vite/`, `.cache/`, `.parcel-cache/`)
 
-```typescript
-<div className="content-padding">
-  Content
-</div>
-```
+### main.tsx Setup
 
----
-
-## Component Patterns
-
-### DO: Use Salt Components for UI Elements
-
-Prefer Salt components for layout and UI:
-
-```typescript
-import { Button, Card, FlexLayout, StackLayout, Text } from '@salt-ds/core';
-
-<StackLayout gap={1}>
-  <Text styleAs="h4">Title</Text>
-  <Text styleAs="label">Description</Text>
-</StackLayout>
-```
-
-### DO: Use Ionic Components for Mobile Structure
-
-Use Ionic components for page structure and mobile-specific features:
-
-```typescript
-import { IonContent, IonHeader, IonPage, IonToolbar } from '@ionic/react';
-
-<IonPage>
-  <IonHeader translucent={false}>
-    <IonToolbar>
-      {/* Toolbar content */}
-    </IonToolbar>
-  </IonHeader>
-  <IonContent fullscreen>
-    {/* Page content */}
-  </IonContent>
-</IonPage>
-```
-
----
-
-## Icons
-
-### CRITICAL: Always Use Salt Icon Components (TSX)
-
-**ALL icons throughout the application MUST be TSX components from the icons directory. This includes:**
-- Tab bar icons (Home, List, Settings, etc.)
-- Navigation icons (back buttons, forward arrows)
-- Action icons (search, filter, settings)
-- Status icons (check, warning, info)
-- Any other icons in the app
-
-**NEVER use:**
-- Ionic icons (`ion-icon`)
-- Material UI icons
-- Font icons
-- Inline SVG
-- Image files for icons
-
-### DO: Convert SVGs to TSX Components
-
-All icons must be TSX components in a dedicated icons directory:
+Create `src/main.tsx` with Ionic setup and all required CSS imports:
 
 ```typescript
 import React from 'react';
-import { Icon, IconProps } from './Icon';
-
-export const ArrowBack: React.FC<Omit<IconProps, 'children'>> = (props) => (
-  <Icon {...props} viewBox="0 0 48 48">
-    <path d="M30.83 14.83l-2.42-2.42L18 22l10.41 9.59 2.42-2.42L22.84 22z"/>
-  </Icon>
-);
-```
-
-### DO: Use Icon Components for Tab Bar
-
-**Tab bar icons MUST use TSX icon components:**
-
-```typescript
-import { Home as HomeIcon, List as ListIcon, Settings as SettingsIcon } from './components/icons';
-
-<IonTabButton tab="home" selected={isTabSelected('/home')}>
-  <HomeIcon size={30} />
-  <IonLabel>Home</IonLabel>
-</IonTabButton>
-```
-
-### DO: Use Icon Components Instead of Text
-
-**Always use icon components for navigation and actions:**
-
-```typescript
-<ArrowBack size={18} />
-```
-
-### DO: Apply Inline Icon Classes
-
-Use the `salt-inline-icon` CSS class for inline icons in buttons and text to ensure proper alignment:
-
-```typescript
-<Button>
-  <ArrowBack size={18} className="salt-inline-icon" />
-  <Text styleAs="label">Back</Text>
-</Button>
-```
-
-**CSS class definition:**
-```css
-.salt-inline-icon {
-  flex-shrink: 0;
-}
-```
-
-### DO: Use Consistent Icon Sizes
-
-Standard sizes:
-- **18px**: Header navigation (back buttons, cancel buttons)
-- **20px**: List items, inline actions
-- **24px-30px**: Tab bar icons
-- **16px**: Small inline status icons
-
----
-
-## Data Organization
-
-### DO: Extract Mock Data to Separate Files
-
-Store mock data in a dedicated data directory with TypeScript types:
-
-```typescript
-export type Item = {
-  id: string;
-  title: string;
-  value: string;
-  status: 'active' | 'inactive';
-};
-
-export const itemsData: Item[] = [
-  {
-    id: '1',
-    title: 'Example Item',
-    value: '100.00',
-    status: 'active',
-  },
-];
-```
-
-### DO: Export Types with Data
-
-Always export the TypeScript type alongside the data:
-
-```typescript
-export type MyDataType = { /* ... */ };
-export const myData: MyDataType[] = [ /* ... */ ];
-```
-
----
-
-## Mobile UI Best Practices
-
-### DO: Use Full-Screen Content
-
-Use `fullscreen` prop on `IonContent` for immersive mobile experience:
-
-```typescript
-<IonContent fullscreen>
-  {/* Content */}
-</IonContent>
-```
-
-### DO: Respect Safe Areas
-
-Always account for safe area insets on iOS using Salt spacing variables:
-
-```css
-.safe-area-bottom {
-  padding-bottom: calc(var(--salt-spacing-150) + env(safe-area-inset-bottom));
-}
-```
-
-```typescript
-<div className="safe-area-bottom">
-  Content
-</div>
-```
-
-### DO: Implement Touch-Friendly Targets
-
-Ensure interactive elements are at least 44x44px for touch. Salt Button components handle this automatically.
-
-### DO: Set Minimum Font Size for Inputs
-
-**Always set font-size to at least 16px on input fields** to prevent iOS Safari from auto-zooming when users focus on the input:
-
-```css
-input,
-textarea,
-select {
-  font-size: 16px;
-  font-size: var(--salt-text-fontSize);
-}
-```
-
-```typescript
-<input type="text" />
-```
-
-**For Salt Input components**, ensure the font size is at least 16px via CSS or check Salt's default input styling.
-
-### DO: Prevent Text Size Adjustment
-
-Prevent iOS Safari from automatically adjusting text size:
-
-```css
-html,
-body,
-input,
-textarea,
-select,
-button {
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
-}
-```
-
-### DO: Optimize Viewport Settings
-
-Ensure proper viewport meta tag for mobile:
-
-```html
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-```
-
-**Note**: Consider allowing user scaling for accessibility. Use `user-scalable=yes` if your app needs to support accessibility features.
-
-### DO: Use Edge-to-Edge Lists Where Appropriate
-
-For list views, use Salt components and spacing variables to achieve edge-to-edge design.
-
-### DO: Keep Search Fields in Headers
-
-Search inputs should be in headers to remain fixed during scroll:
-
-```typescript
-<IonHeader>
-  <IonToolbar>
-    {/* Search input */}
-  </IonToolbar>
-</IonHeader>
-```
-
-### DO: Use Consistent List Row Patterns
-
-Use Salt components for consistent list structure. Prefer Salt's layout components for list items.
-
----
-
-## Page Structure
-
-### CRITICAL: All Pages Must Have Headers
-
-**EVERY page in the application MUST include an `IonHeader` with `IonToolbar`. There are no exceptions.**
-
-### DO: Follow Standard Page Structure
-
-Every page must follow this structure with a header:
-
-```typescript
-import { IonContent, IonHeader, IonPage, IonToolbar } from '@ionic/react';
-
-const MyPage: React.FC = () => {
-  return (
-    <IonPage>
-      <IonHeader translucent={false}>
-        <IonToolbar className="salt-toolbar">
-          {/* Header content - required on all pages */}
-        </IonToolbar>
-      </IonHeader>
-      <IonContent fullscreen>
-        <div className="salt-page-shell">
-          {/* Page content */}
-        </div>
-      </IonContent>
-    </IonPage>
-  );
-};
-```
-
-**Required elements:**
-- `IonPage` - Root page component
-- `IonHeader` with `IonToolbar` - **MUST be present on every page**
-- `IonContent` - Page content container
-- `.salt-page-shell` div - Provides consistent background using Salt variables
-
-**CSS classes to define:**
-- `.salt-page-shell` - Provides consistent page background using Salt variables
-
-```css
-.salt-page-shell {
-  background: var(--salt-container-primary-background);
-}
-```
-
----
-
-## Header Patterns
-
-### DO: Use Three-Column Header Layout
-
-For headers with back navigation, title, and actions, use Salt's FlexLayout with proper spacing:
-
-```typescript
-<IonToolbar className="salt-toolbar">
-  <FlexLayout justify="space-between" align="center" gap={2}>
-    <Button
-      appearance="transparent"
-      sentiment="neutral"
-      onClick={handleBack}
-    >
-      <ArrowBack size={18} className="salt-inline-icon" />
-    </Button>
-    <Text styleAs="h4" className="salt-toolbar-title">Page Title</Text>
-    <Button
-      appearance="transparent"
-      sentiment="neutral"
-      onClick={handleCancel}
-    >
-      <Text styleAs="label">Cancel</Text>
-    </Button>
-  </FlexLayout>
-</IonToolbar>
-```
-
-**CSS classes to define:**
-- `.salt-toolbar` - Sets Ionic toolbar CSS variables using Salt variables
-- `.salt-toolbar-title` - Styles for centered title text
-- `.salt-inline-icon` - Utility class for icon alignment (`flex-shrink: 0`)
-
-```css
-.salt-toolbar {
-  --background: var(--salt-container-primary-background);
-  --color: var(--salt-content-primary-foreground);
-  padding: var(--salt-spacing-50);
-  padding-top: var(--salt-spacing-100);
-}
-
-.salt-toolbar-title {
-  font-weight: 600;
-  text-align: center;
-}
-
-.salt-inline-icon {
-  flex-shrink: 0;
-}
-```
-
-### DO: Add Cancel Buttons to Modal-Like Flows
-
-For multi-step flows or modal-like pages, add a cancel button in the header:
-
-```typescript
-<Button
-  appearance="transparent"
-  sentiment="neutral"
-  onClick={() => router.push('/home', 'root', 'replace')}
->
-  <Text styleAs="label">Cancel</Text>
-</Button>
-```
-
----
-
-## List Patterns
-
-### DO: Use Salt Components for Lists
-
-Use Salt components for consistent list styling. Prefer Salt's built-in list components over custom CSS classes.
-
-### DO: Structure List Items Consistently
-
-Use Salt components for list structure:
-
-```typescript
-<StackLayout gap={0.5}>
-  <Text styleAs="h4">Primary Text</Text>
-  <Text styleAs="label">Secondary Text</Text>
-</StackLayout>
-```
-
----
-
-## Action Bars & Buttons
-
-### DO: Use Fixed Bottom Action Bars
-
-For primary actions at the bottom of pages, use a fixed container with Salt components:
-
-```css
-.action-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: var(--salt-spacing-150);
-  padding-bottom: calc(var(--salt-spacing-150) + env(safe-area-inset-bottom));
-  background: var(--salt-card-background);
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-  border-top: 1px solid var(--salt-separable-secondary-borderColor);
-}
-```
-
-```typescript
-<div className="action-bar">
-  <FlexLayout gap={1}>
-    <Button
-      appearance="bordered"
-      sentiment="neutral"
-      onClick={handleSecondary}
-    >
-      <Text styleAs="label">Cancel</Text>
-    </Button>
-    <Button
-      appearance="solid"
-      sentiment="accented"
-      onClick={handlePrimary}
-    >
-      <Text styleAs="label">Primary Action</Text>
-    </Button>
-  </FlexLayout>
-</div>
-```
-
-### DO: Add Bottom Padding for Action Bars
-
-Add padding to content when using fixed action bars using Salt spacing variables:
-
-```css
-.content-with-action-bar {
-  padding-bottom: var(--salt-spacing-600);
-}
-```
-
-```typescript
-<StackLayout gap={0} className="content-with-action-bar">
-  {/* Content */}
-</StackLayout>
-```
-
-### DO: Use Salt Button Props
-
-Style buttons using Salt Button component props and appearance options. Avoid custom CSS classes.
-
----
-
-## Animations & Transitions
-
-### DO: Use Salt Components for Animations
-
-Prefer Salt components that handle animations internally. For custom animations, use React state and minimal inline styles with Salt spacing variables.
-
----
-
-## Performance & Accessibility
-
-### DO: Use Conditional Rendering
-
-Only render expensive components when needed:
-
-```typescript
-{isExpanded && (
-  <ExpensiveComponent />
-)}
-```
-
-### DO: Provide ARIA Labels
-
-Add aria-label to icon-only buttons:
-
-```typescript
-<Button
-  aria-label="Back"
-  onClick={handleBack}
->
-  <ArrowBack size={18} />
-</Button>
-```
-
-### DO: Optimize Images
-
-- Use appropriate image formats (WebP, SVG)
-- Lazy load images when possible
-- Provide alt text for images
-
-### DO: Handle Loading States
-
-Show loading indicators during async operations:
-
-```typescript
-{isLoading ? (
-  <IonSpinner />
-) : (
-  <Content />
-)}
-```
-
----
-
-## App Structure
-
-### Base App Setup
-
-The main app component should follow this structure with Ionic React Router and Tabs:
-
-```typescript
-import { Route, useLocation } from 'react-router-dom';
-import {
-  IonApp,
-  IonLabel,
-  IonRouterOutlet,
-  IonTabBar,
-  IonTabButton,
-  IonTabs,
-  setupIonicReact,
-  useIonRouter
-} from '@ionic/react';
-import { IonReactRouter } from '@ionic/react-router';
-import { Home as HomeIcon, List as ListIcon, Settings as SettingsIcon } from './components/icons';
-import HomePage from './pages/Home';
-import ListPage from './pages/List';
-import SettingsPage from './pages/Settings';
-
+import ReactDOM from 'react-dom/client';
+import { setupIonicReact } from '@ionic/react';
+import App from './App';
+
+// Ionic CSS imports
 import '@ionic/react/css/core.css';
 import '@ionic/react/css/normalize.css';
 import '@ionic/react/css/structure.css';
 import '@ionic/react/css/typography.css';
 import '@ionic/react/css/palettes/dark.system.css';
 import './theme/variables.css';
+import './style.css';
 import './index.css';
 
 setupIonicReact({
-  mode: 'ios'
+  mode: 'ios',
 });
 
-interface TabBarLocationState {
-  source?: string;
-}
-
-const TabBar: React.FC = () => {
-  const router = useIonRouter();
-  const location = useLocation();
-
-  const handleTabClick = (path: string) => {
-    router.push(path, 'root', 'replace');
-  };
-
-  const isTabSelected = (path: string) => {
-    const currentPath = location.pathname;
-    const state = location.state as TabBarLocationState | undefined;
-
-    if (currentPath === '/item-details' && state?.source) {
-      if (state.source === 'list-view' && path === '/list') return true;
-      if (state.source === 'dashboard' && path === '/dashboard') return true;
-      return false;
-    }
-
-    if (currentPath.startsWith('/feature/') && path === '/feature') {
-      return true;
-    }
-
-    if (path === '/home' && (currentPath === '/' || currentPath === '/home')) {
-      return true;
-    }
-
-    return currentPath === path || currentPath.startsWith(path + '/');
-  };
-
-  return (
-    <IonTabBar slot="bottom">
-      <IonTabButton
-        tab="home"
-        selected={isTabSelected('/home')}
-        onClick={() => handleTabClick('/home')}
-      >
-        <HomeIcon size={30} />
-        <IonLabel>Home</IonLabel>
-      </IonTabButton>
-      <IonTabButton
-        tab="list"
-        selected={isTabSelected('/list')}
-        onClick={() => handleTabClick('/list')}
-      >
-        <ListIcon size={30} />
-        <IonLabel>List</IonLabel>
-      </IonTabButton>
-      <IonTabButton
-        tab="settings"
-        selected={isTabSelected('/settings')}
-        onClick={() => handleTabClick('/settings')}
-      >
-        <SettingsIcon size={30} />
-        <IonLabel>Settings</IonLabel>
-      </IonTabButton>
-    </IonTabBar>
-  );
-};
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+);
 ```
 
-**Required CSS for Tab Bar (must use Salt variables):**
+**Critical:** 
+- `setupIonicReact` MUST be called with `mode: 'ios'`
+- All CSS imports must be in this exact order
+- Salt CSS imports are in `SaltThemeProvider.tsx`, NOT in `main.tsx`
+
+### Required CSS Imports in SaltThemeProvider.tsx
+
+```typescript
+import '@salt-ds/core/css/salt-core.css';
+import '@salt-ds/theme/css/theme-next.css';
+import '@salt-ds/theme/css/theme.css';
+```
+
+### Required CSS Variables in style.css
+
+**CRITICAL: All styles MUST be in `style.css`. Do NOT create individual CSS files for pages or components. Use utility classes for maximum reuse.**
 
 ```css
-/* Tab bar must match app content background using Salt variables */
+:root.salt-theme,
+html.salt-theme,
+.salt-theme {
+  --saltButton-borderRadius: 10px;
+  --saltCard-borderRadius: 10px;
+  --salt-palette-text-fontFamily: "Amplitude", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+}
+
+.salt-theme[data-mode=light] {
+  --salt-container-primary-background: #fafafa;
+  --salt-card-background: white;
+}
+
+.salt-theme[data-mode=dark] {
+  --salt-container-primary-background: #171e26;
+  --salt-card-background: rgb(8, 8, 8);
+}
+
+/* Tab bar styling */
 ion-tab-bar {
   --background: var(--salt-card-background);
   --color: var(--salt-content-secondary-foreground);
   --color-selected: var(--salt-accent-foreground);
   --border: 1px solid var(--salt-separable-secondary-borderColor);
   border-top: 1px solid var(--salt-separable-secondary-borderColor);
+  height: 70px;
 }
 
 ion-tab-bar::part(native) {
@@ -1155,166 +242,162 @@ ion-tab-bar::part(native) {
 ion-tab-button {
   --color: var(--salt-content-primary-foreground);
   --color-selected: var(--salt-accent-foreground);
+  --padding-top: 6px;
+  --padding-bottom: 6px;
+  --padding-start: 6px;
+  --padding-end: 6px;
+  font-size: 0.75rem;
+  color: var(--salt-content-primary-foreground);
+  font-weight: 500;
 }
 
 ion-tab-button.tab-selected {
   --color: var(--salt-accent-foreground);
   color: var(--salt-accent-foreground);
+  opacity: 1;
+  font-weight: 600;
+}
+
+ion-tab-button::part(native) {
+  background: transparent;
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 4px;
+  width: calc(100% - 8px);
+  height: calc(100% - 8px);
+  box-sizing: border-box;
+}
+
+ion-tab-button.tab-selected::part(native) {
+  background: color-mix(in srgb, var(--salt-accent-background) 90%, transparent);
+}
+
+ion-tab-button ion-label {
+  color: var(--salt-content-primary-foreground);
+  opacity: 1 !important;
+  transition: color 0.2s ease;
+}
+
+ion-tab-button.tab-selected ion-label {
+  color: var(--salt-accent-foreground) !important;
+  opacity: 1 !important;
+}
+
+ion-tab-button:hover ion-label,
+ion-tab-button:focus ion-label {
+  color: var(--salt-content-primary-foreground);
+  opacity: 1 !important;
+}
+
+ion-tab-button.tab-selected:hover ion-label,
+ion-tab-button.tab-selected:focus ion-label {
+  color: var(--salt-accent-foreground) !important;
+  opacity: 1 !important;
+}
+
+ion-tab-button img,
+ion-tab-button ion-icon,
+ion-tab-button .tab-icon {
+  opacity: 0.8;
+  color: var(--salt-content-primary-foreground);
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+ion-tab-button.tab-selected img,
+ion-tab-button.tab-selected ion-icon,
+ion-tab-button.tab-selected .tab-icon {
+  opacity: 1;
+  color: var(--salt-accent-foreground);
+}
+
+ion-tab-button:hover .tab-icon,
+ion-tab-button:focus .tab-icon {
+  opacity: 1;
+  color: var(--salt-content-primary-foreground);
+}
+
+ion-tab-button.tab-selected:hover .tab-icon,
+ion-tab-button.tab-selected:focus .tab-icon {
+  opacity: 1;
+  color: var(--salt-accent-foreground);
+}
+
+/* Ionic component variables */
+ion-app {
+  --background: var(--salt-container-primary-background);
+  --color: var(--salt-content-primary-foreground);
+}
+
+ion-content {
+  --background: var(--salt-container-primary-background);
+  --color: var(--salt-content-primary-foreground);
+}
+
+ion-page {
+  --background: var(--salt-container-primary-background);
+  --color: var(--salt-content-primary-foreground);
+}
+
+ion-header {
+  --background: var(--salt-container-primary-background);
+  --color: var(--salt-content-primary-foreground);
+}
+
+ion-toolbar {
+  --background: var(--salt-container-primary-background);
+  --color: var(--salt-content-primary-foreground);
+  --border-color: var(--salt-separable-secondary-borderColor);
+}
+
+.salt-page-shell {
+  background: var(--salt-container-primary-background);
 }
 ```
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Route exact path="/">
-            <HomePage />
-          </Route>
-          <Route exact path="/home">
-            <HomePage />
-          </Route>
-          <Route exact path="/list">
-            <ListPage />
-          </Route>
-          <Route path="/list/item-details/:itemId">
-            <ItemDetailsPage />
-          </Route>
-          <Route exact path="/settings">
-            <SettingsPage />
-          </Route>
-        </IonRouterOutlet>
-        <TabBar />
-      </IonTabs>
-    </IonReactRouter>
-  </IonApp>
-);
+## Page Template
 
-export default App;
-```
+### Tab Page Template
 
-### Key Points
-
-- Use `IonApp` as the root component
-- Wrap everything in `IonReactRouter` for routing
-- Use `IonTabs` to enable tab navigation
-- `IonRouterOutlet` contains all route definitions
-- `TabBar` component handles bottom navigation
-- **Tab bar icons MUST use TSX icon components** from `components/icons/`
-- **Tab bar styling MUST use Salt CSS variables** to match app content background
-- Use `useIonRouter` in TabBar for navigation
-- Tab selection logic maintains context across detail pages
-- Support route prefixes for feature grouping
-
----
-
-## Common Patterns
-
-### Tab Bar Implementation
-
-```typescript
-const TabBar: React.FC = () => {
-  const router = useIonRouter();
-  const location = useLocation();
-
-  const handleTabClick = (path: string) => {
-    router.push(path, 'root', 'replace');
-  };
-
-  const isTabSelected = (path: string) => {
-    const currentPath = location.pathname;
-    const state = location.state as TabBarLocationState | undefined;
-
-    if (currentPath === '/item-details' && state?.source) {
-      if (state.source === 'list-view' && path === '/list') return true;
-      if (state.source === 'dashboard' && path === '/dashboard') return true;
-      return false;
-    }
-
-    if (currentPath.startsWith('/feature/') && path === '/feature') {
-      return true;
-    }
-
-    return currentPath === path || currentPath.startsWith(path + '/');
-  };
-
-  return (
-    <IonTabBar slot="bottom">
-      <IonTabButton
-        tab="home"
-        selected={isTabSelected('/home')}
-        onClick={() => handleTabClick('/home')}
-      >
-        <HomeIcon size={30} />
-        <IonLabel>Home</IonLabel>
-      </IonTabButton>
-      {/* More tabs */}
-    </IonTabBar>
-  );
-};
-```
-
-### Search with Filter
-
-```typescript
-<IonHeader>
-  <IonToolbar>
-    <FlexLayout align="center" gap={1}>
-      <FlexLayout align="center" gap={1}>
-        <Search size={20} />
-        <input
-          type="search"
-          value={searchText}
-          placeholder="Search"
-          onChange={e => setSearchText(e.target.value)}
-        />
-      </FlexLayout>
-      <Button
-        appearance="bordered"
-        sentiment="neutral"
-        aria-label="Filter"
-      >
-        <Filter size={20} />
-      </Button>
-    </FlexLayout>
-  </IonToolbar>
-</IonHeader>
-```
-
-### Settings Page with Dark/Light Mode Toggle
-
-**The Settings page MUST include a toggle switch for switching between dark and light modes:**
+Use this template for all tab pages:
 
 ```typescript
 import { IonContent, IonHeader, IonPage, IonToolbar } from '@ionic/react';
-import { Button, FlexLayout, StackLayout, Switch, Text } from '@salt-ds/core';
-import { useSaltTheme } from '../theme/SaltThemeProvider';
-import './settings.css';
+import { Button, Card, FlexLayout, StackLayout, Text } from '@salt-ds/core';
+import { useHistory } from 'react-router-dom';
 
-const SettingsPage: React.FC = () => {
-  const { mode, toggleMode } = useSaltTheme();
+const Tab1: React.FC = () => {
+  const history = useHistory();
+  const handleBack = () => history.goBack();
 
   return (
     <IonPage>
       <IonHeader translucent={false}>
         <IonToolbar className="salt-toolbar">
-          <Text styleAs="h4" className="salt-toolbar-title">Settings</Text>
+          <StackLayout gap={1} className="salt-toolbar-content">
+            <FlexLayout justify="space-between" align="center" gap={2} style={{ width: '100%' }}>
+              <Button
+                appearance="transparent"
+                sentiment="neutral"
+                onClick={handleBack}
+                style={{ padding: `0 var(--salt-spacing-100)` }}
+              >
+                <Text styleAs="label">Back</Text>
+              </Button>
+              <Text styleAs="h4">
+                Tab 1
+              </Text>
+              <div style={{ width: '44px' }} />
+            </FlexLayout>
+          </StackLayout>
         </IonToolbar>
       </IonHeader>
+
       <IonContent fullscreen>
         <div className="salt-page-shell">
-          <StackLayout gap={2} className="settings-content">
-            <FlexLayout justify="space-between" align="center" gap={2}>
-              <StackLayout gap={0.5}>
-                <Text styleAs="h4">Theme</Text>
-                <Text styleAs="label">Switch between light and dark mode</Text>
-              </StackLayout>
-              <Switch
-                checked={mode === 'dark'}
-                onChange={toggleMode}
-                aria-label="Toggle dark mode"
-              />
-            </FlexLayout>
+          <StackLayout className="salt-page-content" gap={1}>
+            <Card>
+              <Text styleAs="h4">Tab 1 content</Text>
+            </Card>
           </StackLayout>
         </div>
       </IonContent>
@@ -1322,158 +405,338 @@ const SettingsPage: React.FC = () => {
   );
 };
 
-export default SettingsPage;
+export default Tab1;
 ```
 
-**Required CSS:**
+
+
+**Required CSS classes (all in style.css):**
 
 ```css
-.settings-content {
+/* Toolbar Classes */
+.salt-toolbar {
+  --background: var(--salt-container-primary-background);
+  --color: var(--salt-content-primary-foreground);
+  --border-width: 0;
+  --border-style: none;
+  --box-shadow: none;
+  border-bottom: none !important;
+  box-shadow: none !important;
+  padding: 0;
+  height: auto;
+}
+
+.salt-toolbar-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+  height: 100%;
+  gap: 5px;
+}
+
+.salt-toolbar-title {
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.salt-toolbar-button {
+  padding: 0 var(--salt-spacing-100);
+  min-width: auto;
+}
+
+.salt-inline-icon {
+  flex-shrink: 0;
+}
+
+.salt-page-content {
   padding: var(--salt-spacing-150);
+  padding-bottom: var(--salt-spacing-300);
 }
 ```
 
----
+### index.css (Global Styles Only)
 
-## Checklist for New Pages
+Create `src/index.css` for **global styles only** (box-sizing, body, root). All component and utility styles go in `style.css`:
 
-- [ ] Page uses `IonPage`, `IonHeader`, `IonToolbar`, `IonContent`
-- [ ] **Header is present** - Every page MUST have an `IonHeader` with `IonToolbar`
-- [ ] Header uses Salt components for layout
-- [ ] Back navigation uses TSX icon components (not Ionic or Material icons)
-- [ ] All styling uses Salt CSS variables (no hardcoded colors/spacing)
-- [ ] Tab bar uses Salt CSS variables to match app content background
-- [ ] Spacing uses Salt spacing variables
-- [ ] **All icons are TSX components** from `components/icons/` (tab bar, navigation, actions)
-- [ ] Mock data extracted to dedicated data directory if applicable
-- [ ] Safe area insets respected for bottom padding
-- [ ] Touch targets are at least 44x44px
-- [ ] Input fields have font-size of at least 16px to prevent iOS auto-zoom
-- [ ] Text size adjustment prevented with `-webkit-text-size-adjust: 100%`
-- [ ] ARIA labels on icon-only buttons
-- [ ] Navigation uses `useIonRouter` with proper direction
-- [ ] Context passed via `location.state` when needed
+```css
+* {
+  box-sizing: border-box;
+}
 
----
+body {
+  margin: 0;
+  font-family: "Amplitude", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-## Anti-Patterns to Avoid
+#root {
+  width: 100%;
+  height: 100vh;
+}
+```
 
-### DON'T: Use `history.push` Directly
+**Important:** 
+- `index.css` is for global resets and base styles only
+- `style.css` contains ALL component styles, utility classes, and Ionic/Salt customizations
+- `theme/variables.css` contains Ionic CSS variables only
+- **DO NOT create individual CSS files for pages or components**
+
+## Icons
+
+**ALWAYS use Salt icons from `@salt-ds/icons`:**
+
+```typescript
+import { HomeIcon, ChevronLeftIcon, SearchIcon } from '@salt-ds/icons';
+
+<HomeIcon size={2} />
+<ChevronLeftIcon size={1} />
+<SearchIcon size={1.5} />
+```
+
+**Size guidelines:**
+- `size={1}`: Small (header navigation, back buttons)
+- `size={1.5}`: Medium (list items, inline actions)
+- `size={2}`: Large (tab bar icons)
+
+## App.tsx Setup
+
+**Complete App.tsx with tab navigation:**
+
+```typescript
+import { IonApp, IonRouterOutlet, IonTabs, IonTabBar, IonTabButton, IonLabel } from '@ionic/react';
+import { IonReactRouter } from '@ionic/react-router';
+import { Route, Redirect } from 'react-router-dom';
+import { SaltThemeProviderNext } from './theme/SaltThemeProvider';
+import Home from './pages/Home';
+import List from './pages/List';
+import Settings from './pages/Settings';
+import { HomeIcon, ListIcon, SettingsIcon } from '@salt-ds/icons';
+
+const App: React.FC = () => {
+  return (
+    <SaltThemeProviderNext>
+      <IonApp>
+        <IonReactRouter>
+          <IonTabs>
+            <IonRouterOutlet>
+              <Route exact path="/home">
+                <Home />
+              </Route>
+              <Route exact path="/list">
+                <List />
+              </Route>
+              <Route exact path="/settings">
+                <Settings />
+              </Route>
+              <Route exact path="/">
+                <Redirect to="/home" />
+              </Route>
+            </IonRouterOutlet>
+            <IonTabBar slot="bottom">
+              <IonTabButton tab="home" href="/home">
+                <div className="tab-icon">
+                  <HomeIcon size={1.5} />
+                </div>
+                <IonLabel>Home</IonLabel>
+              </IonTabButton>
+              <IonTabButton tab="list" href="/list">
+                <div className="tab-icon">
+                  <ListIcon size={1.5} />
+                </div>
+                <IonLabel>List</IonLabel>
+              </IonTabButton>
+              <IonTabButton tab="settings" href="/settings">
+                <div className="tab-icon">
+                  <SettingsIcon size={1.5} />
+                </div>
+                <IonLabel>Settings</IonLabel>
+              </IonTabButton>
+            </IonTabBar>
+          </IonTabs>
+        </IonReactRouter>
+      </IonApp>
+    </SaltThemeProviderNext>
+  );
+};
+
+export default App;
+```
+
+**Key Points:**
+- Wrap everything in `SaltThemeProviderNext`
+- Use `IonReactRouter` for routing
+- Tab icons use `size={1.5}` (medium size for tab bar)
+- Icons are wrapped in `<div className="tab-icon">` for proper styling
+- **All styles must be in `style.css` - use utility classes, not component-specific classes**
+
+## Navigation
+
+**ALWAYS use `useIonRouter` for navigation:**
 
 ```typescript
 import { useIonRouter } from '@ionic/react';
 
 const router = useIonRouter();
-router.push('/target', 'root', 'replace');
+router.push('/path', 'root', 'replace');
 ```
 
-### DON'T: Hardcode Colors or Spacing
+**Note:** The Tab Page Template uses `useHistory` for back navigation, which is acceptable for simple back navigation. For programmatic navigation, prefer `useIonRouter`.
 
-```css
-.example {
-  color: var(--salt-content-primary-foreground);
-  padding: var(--salt-spacing-150);
-}
-```
+## SaltThemeProvider
+
+**Complete SaltThemeProvider.tsx:**
 
 ```typescript
-<div className="example">
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from 'react';
+import { SaltProviderNext, type Mode } from '@salt-ds/core';
+
+// CRITICAL: These CSS imports MUST be in this file
+import '@salt-ds/core/css/salt-core.css';
+import '@salt-ds/theme/css/theme-next.css';
+import '@salt-ds/theme/css/theme.css';
+
+type SaltThemeContextValue = {
+  mode: Mode;
+  setMode: (mode: Mode) => void;
+  toggleMode: () => void;
+};
+
+const SALT_THEME_STORAGE_KEY = 'salt-theme-mode';
+const SaltThemeContext = createContext<SaltThemeContextValue | undefined>(undefined);
+
+export const useSaltTheme = (): SaltThemeContextValue => {
+  const context = useContext(SaltThemeContext);
+  if (!context) {
+    throw new Error('useSaltTheme must be used within a SaltThemeProvider');
+  }
+  return context;
+};
+
+type SaltThemeProviderProps = {
+  children: ReactNode;
+};
+
+export const SaltThemeProviderNext: React.FC<SaltThemeProviderProps> = ({ children }) => {
+  const [mode, setMode] = useState<Mode>(() => {
+    if (typeof window !== 'undefined') {
+      const storedMode = window.localStorage.getItem(SALT_THEME_STORAGE_KEY) as Mode | null;
+      if (storedMode === 'light' || storedMode === 'dark') {
+        return storedMode;
+      }
+    }
+    return 'dark';
+  });
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem(SALT_THEME_STORAGE_KEY, mode);
+    }
+  }, [mode]);
+
+  const toggleMode = useCallback(() => {
+    setMode(prev => (prev === 'light' ? 'dark' : 'light'));
+  }, []);
+
+  const contextValue = useMemo(
+    () => ({ mode, setMode, toggleMode }),
+    [mode, toggleMode],
+  );
+
+  return (
+    <SaltThemeContext.Provider value={contextValue}>
+      <SaltProviderNext 
+        mode={mode} 
+        density="touch" 
+        accent="teal"
+        headingFont="Amplitude"
+        actionFont="Amplitude"
+      >
+        {children}
+      </SaltProviderNext>
+    </SaltThemeContext.Provider>
+  );
+};
 ```
 
-### DON'T: Use Ionic, Material, or Other Icon Libraries
+## Development
 
-**NEVER use:**
-- `ion-icon` from Ionic
-- Material UI icons
-- Font icons
-- Image files for icons
+### Running the Development Server
 
-**ALWAYS use TSX icon components:**
-
-```typescript
-import { ArrowBack, Home, Settings } from './components/icons';
-
-<ArrowBack size={18} />
-<Home size={30} />
+```bash
+npm run dev
 ```
 
-### DON'T: Create Pages Without Headers
+The app will be available at `http://localhost:5173` (default Vite port).
 
-**EVERY page MUST have an `IonHeader` with `IonToolbar`:**
+### Building for Production
 
-```typescript
-<IonPage>
-  <IonHeader translucent={false}>
-    <IonToolbar className="salt-toolbar">
-      {/* Header content required */}
-    </IonToolbar>
-  </IonHeader>
-  <IonContent fullscreen>
-    {/* Content */}
-  </IonContent>
-</IonPage>
+```bash
+npm run build
 ```
 
-### DON'T: Hardcode Tab Bar or App Backgrounds
+Output will be in the `dist/` directory.
 
-**ALWAYS use Salt CSS variables for consistent theming:**
+### Preview Production Build
 
-```css
-/* DO */
-ion-tab-bar {
-  --background: var(--salt-card-background);
-}
-
-.salt-page-shell {
-  background: var(--salt-container-primary-background);
-}
-
-/* DON'T */
-ion-tab-bar {
-  --background: #000000;
-}
-
-.page-content {
-  background: #ffffff;
-}
+```bash
+npm run preview
 ```
 
-### DON'T: Store Mock Data in Components
+## Troubleshooting
 
-```typescript
-export const data = [/* ... */];
-```
+### Common Issues
 
-### DON'T: Ignore Safe Areas
+**Error: "Cannot find module 'react' or its corresponding type declarations"**
+- Run `npm install` to install all dependencies
+- Verify React version is `^18.2.0` (not React 19)
+- Ensure `@types/react` and `@types/react-dom` are installed
 
-```css
-padding-bottom: calc(var(--salt-spacing-150) + env(safe-area-inset-bottom));
-```
+**Error: "No matching version found for @salt-ds/core@^4.0.0"**
+- Salt Design System packages use different version numbers
+- Use: `@salt-ds/core@^1.54.0`, `@salt-ds/icons@^1.15.0`, `@salt-ds/theme@^1.37.0`
 
-### DON'T: Use Small Font Sizes on Inputs
+**Icons not displaying in tab bar**
+- Verify icons are imported from `@salt-ds/icons`
+- Check that icons are wrapped in `<div className="tab-icon">`
+- Ensure icon size is `size={2}` for tab bar icons
 
-```css
-input {
-  font-size: 16px;
-  font-size: var(--salt-text-fontSize);
-}
-```
+**Tab label text disappears on hover**
+- Ensure `ion-label` has explicit `opacity: 1 !important` in CSS
+- Add hover and focus states for `ion-label` to maintain visibility
+- Check that the CSS includes the hover/focus rules from the style.css template
 
-```typescript
-<input type="text" />
-```
+**TypeScript errors after installation**
+- Restart your IDE/editor
+- Run `npm install` again to ensure all packages are installed
+- Check that `tsconfig.json` has correct configuration
 
----
+**CSS variables not working**
+- Verify `SaltThemeProvider.tsx` is wrapping your app
+- Check that all CSS files are imported in the correct order
+- Ensure Salt CSS imports are in `SaltThemeProvider.tsx`, not `main.tsx`
 
-## Additional Resources
+## Checklist for New Pages
 
-- [Ionic React Documentation](https://ionicframework.com/docs/react)
-- [Salt Design System Documentation](https://www.saltdesignsystem.com/)
-- [React Router Documentation](https://reactrouter.com/)
-- [Mobile Web Best Practices](https://web.dev/mobile/)
-
----
-
-**Remember**: Consistency is key. Following these patterns ensures maintainability, scalability, and excellent mobile UX across your application.
-
-
+- [ ] Page uses `IonPage`, `IonHeader`, `IonToolbar`, `IonContent`
+- [ ] Header uses three-column layout pattern
+- [ ] All icons are Salt icons from `@salt-ds/icons`
+- [ ] All styling uses Salt CSS variables
+- [ ] **All styles are in `style.css` using utility classes**
+- [ ] **No individual CSS files created for the page**
+- [ ] Navigation uses `useIonRouter` (or `useHistory` for simple back navigation)
+- [ ] Touch targets are at least 44x44px
+- [ ] Input fields have font-size of at least 16px
