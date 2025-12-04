@@ -129,7 +129,12 @@ export default defineConfig({
   server: {
     port: 5175,
     host: true, // Enable access from network devices (e.g., Android emulator)
+    headers: {
+      'Service-Worker-Allowed': '/',
+    },
   },
+  // Ensure service worker is served correctly
+  publicDir: 'public',
 })
 ```
 
