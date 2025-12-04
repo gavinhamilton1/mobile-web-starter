@@ -31,6 +31,7 @@ A mobile web application built with React, Ionic React, and Salt Design System. 
 9. **Font sizes** - Ensure font sizes are at least 16px for input fields to prevent iOS auto-zoom. Use Salt default sizes to ensure all text is large enough for mobile display
 10. Only add small icons to the header sections, do not add search fields or other items to the header, always add them below.
 11. Add a PWA manifest file so that this app can be installed on a mobile device
+12. Always start the ap in light mode
 
 **Quick Reference:**
 - Tab page template: See "Page Template" section
@@ -799,6 +800,37 @@ Example:
     </Text>
   </FlexLayout>
 </Button>
+```
+
+### PWA Manifest file
+
+Use the following as the PWA manifest file:
+
+```
+{
+  "name": "Mobile Web App",
+  "short_name": "MobileApp",
+  "description": "A mobile web application built with React, Ionic, and Salt Design System",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#171e26",
+  "theme_color": "#ffffff",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
 ```
 
 **Common mistakes to avoid:**
