@@ -563,6 +563,97 @@ import { HomeIcon, ListIcon, SettingsIcon } from '@salt-ds/icons';
 - `size={1.5}`: Medium (list items, inline actions, tab bar icons)
 - `size={2}`: Large (standalone icons)
 
+**Common Icons - Use Only These:**
+
+**CRITICAL:** Only use icons from this approved list. If you need an icon that's not listed, choose the closest alternative from this list.
+
+**Navigation & Layout:**
+- `HomeIcon`, `HomeSolidIcon`
+- `ListIcon`
+- `SettingsIcon`, `SettingsSolidIcon`
+- `MenuIcon`
+- `ArrowDownIcon`, `ArrowLeftIcon`, `ArrowRightIcon`, `ArrowUpIcon`
+- `ChevronDownIcon`, `ChevronLeftIcon`, `ChevronRightIcon`, `ChevronUpIcon`
+- `DoubleChevronDownIcon`, `DoubleChevronLeftIcon`, `DoubleChevronRightIcon`, `DoubleChevronUpIcon`
+
+**Actions:**
+- `AddIcon`
+- `EditIcon`, `EditSolidIcon`
+- `DeleteIcon`, `DeleteSolidIcon`
+- `SaveIcon`, `SaveSolidIcon`
+- `CloseIcon`, `CloseSmallIcon`
+- `CheckmarkIcon`, `CheckmarkSolidIcon`
+- `PlayIcon`, `PlaySolidIcon`
+- `PauseIcon`, `PauseSolidIcon`
+- `StopIcon`, `StopSolidIcon`
+- `RefreshIcon`
+- `DownloadIcon`
+- `UploadIcon`
+- `CopyIcon`, `CopySolidIcon`
+- `CutIcon`
+- `PasteIcon`, `PasteSolidIcon`
+- `UndoIcon`
+- `RedoIcon`
+
+**Search & Filter:**
+- `SearchIcon`, `SearchSolidIcon`
+- `FilterIcon`, `FilterSolidIcon`, `FilterClearIcon`
+
+**Documents & Files:**
+- `DocumentIcon`, `DocumentSolidIcon`, `DocumentEditIcon`, `DocumentSearchIcon`
+- `FolderClosedIcon`, `FolderOpenIcon`, `FolderClosedSolidIcon`, `FolderOpenSolidIcon`
+- `PdfIcon`, `PdfSolidIcon`
+- `ImageIcon`, `ImageSolidIcon`
+
+**User & Account:**
+- `UserIcon`, `UserSolidIcon`, `UserGroupIcon`, `UserGroupSolidIcon`
+- `UserAdminIcon`, `UserAdminSolidIcon`
+- `AddUserIcon`
+- `RemoveUserIcon`
+
+**Status & Feedback:**
+- `InfoIcon`, `InfoSolidIcon`
+- `SuccessIcon`, `SuccessCircleIcon`, `SuccessSolidIcon`
+- `ErrorIcon`, `ErrorSolidIcon`
+- `WarningIcon`, `WarningSolidIcon`
+- `HelpIcon`, `HelpSolidIcon`
+- `FeedbackIcon`, `FeedbackSolidIcon`
+
+**Charts & Data:**
+- `BarChartIcon`
+- `LineChartIcon`, `LineChartSolidIcon`
+- `PieChartIcon`
+- `DashboardIcon`, `DashboardSolidIcon`
+
+**Communication:**
+- `MessageIcon`, `MessageSolidIcon`
+- `ChatIcon`, `ChatSolidIcon`
+- `NotificationIcon`, `NotificationSolidIcon`
+- `SendIcon`, `SendSolidIcon`
+
+**Media:**
+- `VideoIcon`, `VideoSolidIcon`
+- `ImageIcon`, `ImageSolidIcon`
+- `MusicIcon`, `MusicSolidIcon`
+- `VolumeUpIcon`, `VolumeDownIcon`, `VolumeOffIcon`
+
+**Other Common:**
+- `CalendarIcon`, `CalendarSolidIcon`
+- `ClockIcon`, `ClockSolidIcon`
+- `LocationIcon`, `LocationSolidIcon`
+- `LockedIcon`, `LockedSolidIcon`
+- `UnlockedIcon`, `UnlockedSolidIcon`
+- `VisibleIcon`, `VisibleSolidIcon`
+- `HiddenIcon`, `HiddenSolidIcon`
+- `StarIcon` (use `FavoriteIcon` instead)
+- `HeartIcon` (use `FavoriteIcon`, `FavoriteSolidIcon` instead)
+- `ShareIcon`, `ShareSolidIcon`
+- `PrintIcon`, `PrintSolidIcon`
+- `BookmarkIcon`, `BookmarkSolidIcon`
+- `TagIcon`, `TagSolidIcon`
+
+**Note:** If you need a chart icon, use `BarChartIcon`, `LineChartIcon`, or `PieChartIcon` - there is no `ChartIcon`.
+
 ## App.tsx Setup
 
 **Complete App.tsx with tab navigation:**
