@@ -3,13 +3,15 @@
 
 ### Quick Start
 
-Copy and paste this prompt to your AI coding assistant:
+Copy and paste this example prompt to your AI coding assistant:
 
 Build a complete mobile web app following instructions.md exactly. Include:
 - Install all dependencies (run npm install commands)
 - All setup (dependencies, CSS imports, SaltThemeProvider)
 - App.tsx with tab navigation
-- 3 tab pages (Home, List, Settings) using the Tab Page Template
+- 3 tab pages (Home, Details, Settings) using the Tab Page Template
+  * use the web page image as a refernce for the Home page and convert to a responsive view
+  * use the hand drawn image as a reference for the Details page
 - Add a light mode dark mode toggle switch on the settings page
 - Tab bar with Salt icons
 
@@ -71,7 +73,7 @@ cd mobile-web-starter
 **CRITICAL: You MUST install all dependencies before creating source files. Run these commands:**
 
 ```bash
-npm install @ionic/react@^8.5.0 @ionic/react-router@^8.5.0 react-router@^5.3.4 react-router-dom@^5.3.4 @salt-ds/core@^1.54.0 @salt-ds/icons@^1.15.0 @salt-ds/theme@^1.37.0 react@^18.2.0 react-dom@^18.2.0
+npm install @ionic/react@^8.5.0 @ionic/react-router@^8.5.0 react-router@^5.3.4 react-router-dom@^5.3.4 @salt-ds/core@^1.54.0 @salt-ds/icons@^1.15.0 @salt-ds/theme@^1.37.0 react@^18.2.0 react-dom@^18.2.0 react-chartjs-2
 npm install -D @types/react@^18.2.66 @types/react-dom@^18.2.22 @types/react-router@^5.1.20 @types/react-router-dom@^5.3.3 @typescript-eslint/eslint-plugin@^7.2.0 @typescript-eslint/parser@^7.2.0 @vitejs/plugin-react@^4.2.1 eslint@^8.57.0 eslint-plugin-react-hooks@^4.6.0 eslint-plugin-react-refresh@^0.4.6 typescript@^5.2.2 vite@^5.2.0
 ```
 
@@ -223,6 +225,26 @@ html.salt-theme,
   --salt-card-background: rgb(8, 8, 8);
 }
 
+.salt-search-input {
+  flex: 1;
+  align-items: center;
+  gap: var(--salt-spacing-100);
+  background: var(--salt-container-secondary-background);
+  border: 1px solid var(--salt-separable-secondary-borderColor);
+  border-radius: var(--sale-button-radius);
+  padding: var(--salt-spacing-50);
+}
+
+.salt-search-input input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 0.875rem;
+  color: var(--salt-content-primary-foreground);
+  font-family: inherit;
+}
+
 /* Tab bar styling */
 ion-tab-bar {
   --background: var(--salt-card-background);
@@ -364,6 +386,7 @@ Use this template for all tab pages:
 import { IonContent, IonHeader, IonPage, IonToolbar } from '@ionic/react';
 import { Button, Card, FlexLayout, StackLayout, Text } from '@salt-ds/core';
 import { useHistory } from 'react-router-dom';
+import { FilterIcon, SearchIcon } from '@salt-ds/icons';
 
 const Tab1: React.FC = () => {
   const history = useHistory();
@@ -671,6 +694,48 @@ export const SaltThemeProviderNext: React.FC<SaltThemeProviderProps> = ({ childr
   );
 };
 ```
+
+## Patterns
+
+### Search Field
+When adding a search field use the following code:
+
+```typescript
+          <FlexLayout align="center" gap={1}>
+              <FlexLayout align="center" gap={1} className="salt-search-input">
+                <SearchIcon size={1}/>
+                <input type="search" placeholder="Search"/>
+              </FlexLayout>
+              <Button
+                appearance="bordered"
+                sentiment="neutral"
+                aria-label="Filter"
+              >
+                <FilterIcon size={0.5} />
+              </Button>
+            </FlexLayout>
+```
+
+
+### Charts
+Use react-charts-2 for any charts
+
+example chart:
+```typescript
+            <Card>
+              <StackLayout gap={1} className="salt-card-section">
+                <Text styleAs="h4">Sample Donut Chart</Text>
+                <div style={{ height: '300px', width: '100%' }}>
+                  <Doughnut data={chartData} options={chartOptions} />
+                </div>
+              </StackLayout>
+            </Card>
+```
+
+### Lists
+
+
+
 
 ## Development
 
