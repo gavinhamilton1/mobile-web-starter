@@ -1,10 +1,12 @@
-# React + Ionic + Salt Design System - Mobile Web App Instructions
+# MobileWeb App Instructions
+**Built with React + Ionic + Salt Design System**
 
 
-### Quick Start
+## Quick Start
 
-Copy and paste this example prompt to your AI coding assistant:
+#### Copy and paste this example prompt to your AI coding assistant:
 
+```
 Build a complete mobile web app following AGENTS.md exactly. Include:
 - Install all dependencies (run npm install commands)
 - All setup (dependencies, CSS imports, SaltThemeProvider)
@@ -14,5 +16,12 @@ Build a complete mobile web app following AGENTS.md exactly. Include:
   * use the hand drawn image as a reference for the Details page and apply some subtle background colors that are appropriate for the app style
 - Add a light mode dark mode toggle switch on the settings page
 - Tab bar with Salt icons
+```
 
-Use the templates in AGENTS.md - do not create custom patterns.
+
+## Testing your app
+In your terminal run the following
+
+```bash
+npm run dev
+```

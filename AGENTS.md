@@ -1,6 +1,8 @@
 # AGENTS.md
 
-This file provides AI coding agents with essential context and instructions for working with this project.
+This file provides AI coding agents with essential context and instructions for working with this project.  
+
+ESSENTIAL: Make sure to use provided templates and example code when create pages and components.
 
 ## Project Overview
 
@@ -520,12 +522,25 @@ export default Tab1;
 
 **ALWAYS use Salt icons from `@salt-ds/icons`:**
 
+**Important:** Salt icons ARE exported with the "Icon" suffix. They are exported as `HomeIcon`, `SearchIcon`, `SettingsIcon`, etc.
+
 ```typescript
-import { HomeIcon, ChevronLeftIcon, SearchIcon } from '@salt-ds/icons';
+import { HomeIcon, SearchIcon, SettingsIcon } from '@salt-ds/icons';
 
 <HomeIcon size={2} />
-<ChevronLeftIcon size={1} />
-<SearchIcon size={1.5} />
+<SearchIcon size={1} />
+<SettingsIcon size={1.5} />
+```
+
+**Avoiding Naming Conflicts:**
+Since icons have the "Icon" suffix, they typically don't conflict with component names. However, if you need to use a different name, you can use import aliases:
+
+```typescript
+import Home from './pages/Home';
+import { HomeIcon, ListIcon, SettingsIcon } from '@salt-ds/icons';
+
+// Use HomeIcon, ListIcon, SettingsIcon in your JSX
+<HomeIcon size={1.5} />
 ```
 
 **Size guidelines:**
@@ -545,6 +560,7 @@ import { SaltThemeProviderNext } from './theme/SaltThemeProvider';
 import Home from './pages/Home';
 import List from './pages/List';
 import Settings from './pages/Settings';
+// Icons already have "Icon" suffix, so no aliases needed
 import { HomeIcon, ListIcon, SettingsIcon } from '@salt-ds/icons';
 
 const App: React.FC = () => {
@@ -600,6 +616,7 @@ export default App;
 **Key Points:**
 - Wrap everything in `SaltThemeProviderNext`
 - Use `IonReactRouter` for routing
+- **Icons are exported with "Icon" suffix** (e.g., `HomeIcon`, `ListIcon`, `SettingsIcon`)
 - Tab icons use `size={1.5}` (medium size for tab bar)
 - Icons are wrapped in `<div className="tab-icon">` for proper styling
 - **All styles must be in `style.css` - use utility classes, not component-specific classes**
@@ -725,7 +742,9 @@ When adding a search field use the following code:
 
 ### Charts
 
-Use react-chartjs-2 for any charts. Example:
+Use react-chartjs-2 for any charts.  When creating placeholder or example charts make sure to add some example data for demo purposes.
+
+Example:
 
 ```typescript
 import { Doughnut } from 'react-chartjs-2';
@@ -786,42 +805,6 @@ Example:
 - ❌ FlexLayout without `width: '100%'` (content doesn't fill button)
 - ❌ Forgetting `minHeight: 'fit-content'` (can cause height issues)
 
-## Development
-
-### Running the Development Server
-
-```bash
-npm run dev
-```
-
-The app will be available at `http://localhost:5173` (default Vite port).
-
-### Building for Production
-
-```bash
-npm run build
-```
-
-Output will be in the `dist/` directory.
-
-### Preview Production Build
-
-```bash
-npm run preview
-```
-
-## Testing
-
-```bash
-# Unit tests
-npm run test.unit
-
-# E2E tests
-npm run test.e2e
-
-# Linting
-npm run lint
-```
 
 ## Code Style & Conventions
 
