@@ -28,6 +28,7 @@ A mobile web application built with React, Ionic React, and Salt Design System. 
 6. **Use Salt icons only** - Import from `@salt-ds/icons`, never use Ionic or Material icons
 7. **Follow the Tab Page Template** - Use the provided template for all tab pages
 8. **Check the Checklist** - Verify all requirements before completing any page
+9. Only add small icons to the header sections, do not add search fields or other items to the header, always add them below.
 
 **Quick Reference:**
 - Tab page template: See "Page Template" section
