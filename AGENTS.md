@@ -743,7 +743,7 @@ When adding a search field use the following code:
 
 ### Charts
 
-Use react-chartjs-2 for any charts.  When creating placeholder or example charts make sure to add some example data for demo purposes.
+Use react-chartjs-2 for any charts.  When creating placeholder or example charts make sure to add some example data with different colored sections for demo purposes.
 
 Example:
 
