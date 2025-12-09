@@ -1,0 +1,71 @@
+@startuml "digital_platform_containers"
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+LAYOUT_WITH_LEGEND()
+
+title Container Diagram for Digital Platform
+
+' --- ACTORS ---
+Person(user, "Platform User", "Employee/Customer")
+
+' --- EXTERNAL SYSTEMS ---
+System_Ext(idp, "Identity Provider", "PingFed/AD")
+System_Ext(dpa, "DPA", "Data Privacy Authority")
+
+' --- THE DIGITAL PLATFORM (Zoomed In) ---
+System_Boundary(platform_boundary, "Digital Platform") {
+
+    ' 1. THE FRONTEND SHELLS (Hosts)
+    Container(webShell, "Web Shell", "React/SPA", "The browser host. Handles routing & layout.") [[./components_web_shell.puml]]
+    Container(mobileShell, "Mobile Super App", "iOS/Android/Native", "The native host. Handles device plugins & biometrics.") [[Mobile-c4-container.puml]]
+
+    ' 2. THE GUEST APPS (Micro-Frontends)
+    Boundary(guests, "Guest Applications (Partner Teams)") {
+        Container(tradingApp, "Trading App", "React MFE", "Loaded at runtime by shells")
+        Container(paymentsApp, "Payments App", "React MFE", "Loaded at runtime by shells")
+    }
+
+    ' 3. THE GATEWAY LAYER
+    Container(ingress, "API Gateway", "Kong/Nginx", "Rate limiting, routing, and SSL termination")
+
+    ' 4. THE SHARED SERVICES (Backend)
+    Boundary(services, "Shared Platform Services") {
+        Container(auth, "Auth Service", "Java/Spring", "Token management & OIDC integration")
+        Container(user, "User Mgmt", "Java/Spring", "Profiles & Preferences")
+        Container(notif, "Notifications", "Go", "SMS/Email Dispatch")
+        Container(cms, "CMS Service", "Node.js", "Headless content delivery")
+        Container(analytics, "Analytics", "Python", "Data ingestion pipeline")
+    }
+
+    ' 5. DATA STORE LAYER (Implicit)
+    ContainerDb(platformDb, "Platform DB", "PostgreSQL", "Stores user profiles & prefs")
+    ContainerDb(cmsDb, "Content Store", "Mongo/S3", "Stores raw content")
+}
+
+' --- RELATIONSHIPS ---
+
+' User Entry
+Rel(user, webShell, "Visits", "HTTPS")
+Rel(user, mobileShell, "Opens", "Biometrics")
+
+' Shell Loading Guests
+Rel(webShell, tradingApp, "Loads Module", "HTTPS/JS")
+Rel(mobileShell, paymentsApp, "Bundles/Loads", "Native Bridge")
+
+' API Traffic
+Rel(webShell, ingress, "API Calls", "HTTPS/JSON")
+Rel(mobileShell, ingress, "API Calls", "HTTPS/JSON")
+Rel(tradingApp, ingress, "API Calls", "HTTPS/JSON")
+
+' Gateway Routing
+Rel(ingress, auth, "Routes Auth", "gRPC")
+Rel(ingress, user, "Routes User Data", "REST")
+Rel(ingress, notif, "Routes Alerts", "REST")
+
+' Service Dependencies
+Rel(auth, idp, "Federates login", "OIDC")
+Rel(user, platformDb, "Reads/Writes", "JDBC")
+Rel(cms, cmsDb, "Reads/Writes", "Mongo Protocol")
+Rel(analytics, dpa, "Exports Logs", "Batch")
+
+@enduml

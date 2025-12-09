@@ -129,12 +129,58 @@ export default defineConfig({
   server: {
     port: 5175,
     host: true, // Enable access from network devices (e.g., Android emulator)
+    open: true, // Automatically open browser when dev server starts
+    // open: '/home', // Optional: open a specific path instead of root
+    headers: {
+      'Service-Worker-Allowed': '/',
+    },
+  },
+  preview: {
+    port: 4173,
+    host: true, // Enable access from network devices
+    open: true, // Automatically open browser when preview server starts
     headers: {
       'Service-Worker-Allowed': '/',
     },
   },
   // Ensure service worker is served correctly
   publicDir: 'public',
+  build: {
+    outDir: 'dist',
+    sourcemap: false, // Disable sourcemaps in production for smaller bundle size
+    minify: 'esbuild', // Fast minification
+    rollupOptions: {
+      output: {
+        manualChunks: (id) => {
+          // Separate vendor chunks for better caching
+          if (id.includes('node_modules')) {
+            // Let Vite handle React/ReactDOM automatically to avoid createContext errors
+            // Only split other large dependencies
+            if (id.includes('react-router')) {
+              return 'react-router-vendor';
+            }
+            if (id.includes('@ionic')) {
+              return 'ionic-vendor';
+            }
+            if (id.includes('@salt-ds/core')) {
+              return 'salt-core-vendor';
+            }
+            if (id.includes('chart.js') || id.includes('react-chartjs-2')) {
+              return 'chart-vendor';
+            }
+            // Other node_modules (including React) go into vendor chunk
+            return 'vendor';
+          }
+        },
+      },
+    },
+    // Increase chunk size warning limit
+    chunkSizeWarningLimit: 1000,
+    commonjsOptions: {
+      include: [/node_modules/],
+      transformMixedEsModules: true,
+    },
+  },
 })
 ```
 
@@ -659,6 +705,7 @@ import { HomeIcon, ListIcon, SettingsIcon } from '@salt-ds/icons';
 **Complete App.tsx with tab navigation:**
 
 ```typescript
+import React from 'react';
 import { IonApp, IonRouterOutlet, IonTabs, IonTabBar, IonTabButton, IonLabel } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { Route, Redirect } from 'react-router-dom';
@@ -940,22 +987,13 @@ Use the following as the PWA manifest file:
 Create a basic service worker file `public/sw.js` that doesn't cache anything. This minimal service worker allows the app to be installable as a PWA without implementing caching strategies:
 
 ```javascript
-// Basic service worker that doesn't cache anything
-// This allows the app to be installable as a PWA
-
 self.addEventListener('install', (event) => {
-  // Skip waiting to activate immediately
   self.skipWaiting();
 });
-
 self.addEventListener('activate', (event) => {
-  // Take control of all pages immediately
   event.waitUntil(self.clients.claim());
 });
-
-// Fetch event - always fetch from network, no caching
 self.addEventListener('fetch', (event) => {
-  // Simply fetch from network without caching
   event.respondWith(fetch(event.request));
 });
 ```
@@ -965,15 +1003,12 @@ self.addEventListener('fetch', (event) => {
 Add service worker registration to `src/main.tsx` after the ReactDOM render:
 
 ```typescript
-// ... existing imports and setup ...
-
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
 );
 
-// Register service worker
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker
@@ -988,18 +1023,7 @@ if ('serviceWorker' in navigator) {
 }
 ```
 
-**Note:** This service worker provides the minimum functionality needed for PWA installation. It does not implement any caching strategies, so all requests will always fetch from the network. For production apps, you may want to implement caching strategies for better offline support.
-
-**Common mistakes to avoid:**
-- ❌ Using StackLayout (creates vertical layout instead of horizontal)
-- ❌ Icon size too large (should be `size={1}` for buttons with text)
-- ❌ Missing padding on Button (content touches border)
-- ❌ FlexLayout without `width: '100%'` (content doesn't fill button)
-- ❌ Forgetting `minHeight: 'fit-content'` (can cause height issues)
-
-
 ## Code Style & Conventions
-
 ### Key Principles
 
 1. **Use Salt Design System components** - Never use generic HTML elements when a Salt component exists
@@ -1051,16 +1075,8 @@ Following the instructions given in AGENTS.md, set up the project and its depend
 ```bash
 # Development
 npm run dev
-
 # Build
 npm run build
-
-# Test
-npm run test.unit
-npm run test.e2e
-
-# Lint
-npm run lint
 ```
 
 ## Important Notes

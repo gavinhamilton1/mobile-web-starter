@@ -1,0 +1,45 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title Container Diagram: Mobile Shell (Hybrid)
+
+System_Boundary(platform, "Digital Enablement Platform") {
+
+    ' --- EXTERNAL WEB APP (Runtime Integration) ---
+    Container(webGuest, "Partner Web App", "React/SPA", "Hosted externally. Updates independently.")
+
+    ' --- YOUR MOBILE SHELL ---
+    Container_Boundary(mobileShell, "Mobile Super App (iOS/Android)") {
+        
+        ' Core Shell Components
+        Component(auth, "Auth Manager", "Native", "Handles Biometrics & OIDC Tokens")
+        Component(nav, "Navigation", "Native", "Main Menu & Routing")
+        Component(webView, "Secure WebView", "WebKit/Chromium", "Sandboxed browser for Web Apps")
+
+        ' --- BUNDLED NATIVE APPS (Build-time Integration) ---
+        Boundary(bundled_packages, "Bundled Packages (Dependencies)") {
+            Component(tradingModule, "Trading Native Module", "Swift/Kotlin Library", "Compiled into the app")
+            Component(paymentsModule, "Payments Native Module", "Swift/Kotlin Library", "Compiled into the app")
+        }
+    }
+
+    ' --- SHARED SERVICES ---
+    Container(apiGateway, "API Gateway", "Kong", "Secure Backend Access")
+}
+
+' --- RELATIONSHIPS ---
+
+' 1. Web Integration (Runtime URL)
+Rel(webView, webGuest, "Loads Content", "HTTPS/HTML")
+Rel(webGuest, apiGateway, "Data Calls", "HTTPS/JSON")
+
+' 2. Native Integration (Internal Call)
+Rel(nav, tradingModule, "Initializes", "Function Call")
+Rel(nav, webView, "Opens URL", "Intent")
+
+' 3. Security (The Shell handles Auth)
+Rel(auth, tradingModule, "Injects Token", "Memory")
+Rel(auth, webView, "Injects Cookies/Header", "Cookie Store")
+
+@enduml
